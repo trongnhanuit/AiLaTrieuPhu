@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 19, 2014 11:26:45 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.Player" table="player" catalog="altp">
+        <id name="playerId" type="java.lang.Integer">
+            <column name="playerID" />
+            <generator class="identity" />
+        </id>
+        <property name="username" type="string">
+            <column name="username" length="45" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="1024" not-null="true" />
+        </property>
+        <property name="playername" type="string">
+            <column name="playername" length="45" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="45" not-null="true" />
+        </property>
+        <property name="birthday" type="int">
+            <column name="birthday" not-null="true" />
+        </property>
+        <property name="govermentid" type="string">
+            <column name="govermentid" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="sex" type="boolean">
+            <column name="sex" not-null="true" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+        <set name="rounds" table="round" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mainplayer" not-null="true" />
+            </key>
+            <one-to-many class="model.Round" />
+        </set>
+    </class>
+</hibernate-mapping>

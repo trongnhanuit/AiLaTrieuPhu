@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 19, 2014 11:26:45 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.Round" table="round" catalog="altp">
+        <id name="roundId" type="java.lang.Integer">
+            <column name="roundID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="player" class="model.Player" fetch="select">
+            <column name="mainplayer" not-null="true" />
+        </many-to-one>
+        <property name="help" type="int">
+            <column name="help" not-null="true" />
+        </property>
+        <property name="questionlist" type="string">
+            <column name="questionlist" length="200" not-null="true" />
+        </property>
+        <property name="status" type="int">
+            <column name="status" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

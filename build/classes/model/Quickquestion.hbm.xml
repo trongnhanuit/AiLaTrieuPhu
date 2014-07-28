@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 19, 2014 11:26:45 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.Quickquestion" table="quickquestion" catalog="altp">
+        <id name="quickId" type="java.lang.Integer">
+            <column name="quickID" />
+            <generator class="identity" />
+        </id>
+        <property name="content" type="string">
+            <column name="content" length="200" not-null="true" />
+        </property>
+        <property name="ansA" type="string">
+            <column name="ansA" length="200" not-null="true" />
+        </property>
+        <property name="ansB" type="string">
+            <column name="ansB" length="200" not-null="true" />
+        </property>
+        <property name="ansC" type="string">
+            <column name="ansC" length="200" not-null="true" />
+        </property>
+        <property name="ansD" type="string">
+            <column name="ansD" length="200" not-null="true" />
+        </property>
+        <property name="ansKey" type="string">
+            <column name="ansKey" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
