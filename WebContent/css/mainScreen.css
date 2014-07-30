@@ -1,0 +1,113 @@
+body
+{
+	background: url("Image/bg100.jpg") fixed;
+	background-repeat: no-repeat;
+	position: absolute;
+	margin: 0px;
+}
+.c1
+{
+	width: 1345px;
+	height: 210px;
+}
+.c11
+{
+	height: 135px;
+	padding-left: 140px;
+	padding-right: 140px;
+}
+.c12
+{
+	height: 70px;
+	padding-left: 400px;
+	padding-right: 400px;
+}
+.userOff
+{
+	background-image:url(../media/useroff.png);
+	width: 53px;
+	height: 60px;
+	background-repeat: no-repeat;
+	float: left;
+	background-size: contain;
+	margin: 3px 0px;
+}
+.umale
+{
+	float:left;
+	background-image:url(../media/male.png);
+	width:35px;
+	height:35px;
+	background-size:contain;
+	margin:20px 5px 0px 5px;
+}
+.numUser
+{
+	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:15px;
+	color:#fff;
+	position: absolute;
+	font-weight:bold;
+	margin: 2px 10px 0px 15px;
+}
+.c2
+{
+	width: 1345px;
+	height: 500px;
+}
+
+.c2l 
+{
+	height: 500px;
+	width: 250px;
+	background-color: #804040;
+	float: left;
+}
+
+.c2r 
+{
+	height: 500px;
+	width: 250px;
+	background-color: #804040;
+	float: left;
+}
+
+.c2r2 
+{
+	background-image: url("./../media/mc.png");
+	height: 300px;
+	width: 250px;
+	background-repeat: no-repeat;
+	background-size: 250px;
+}
+
+.c2r1 
+{
+	height: 200px;
+	width: 250px;
+	background-color: Yellow
+}
+
+.c2c 
+{
+	height: 500px;
+	width: 845px;
+	background-color: #0080FF;
+	float: left
+}
+
+.c2l2 
+{
+	background-image: url("./../media/player.png");
+	height: 300px;
+	width: 250px;
+	background-repeat: no-repeat;
+	background-size: 250px;
+}
+
+.c2l1 
+{
+	height: 200px;
+	width: 250px;
+	background-color: Yellow
+}
