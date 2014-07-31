@@ -38,7 +38,7 @@ public class WSServer {
 		{
 			sessionmap.add(new SessionRecord(session, msg));
 			for (SessionRecord ssr:sessionmap)
-				ssr.session.getBasicRemote().sendText(session.getId()+" connected at position: "+msg+"<br/>");
+				ssr.session.getBasicRemote().sendText("NEW AUDIENCE: "+msg);
 		}
 		else // Else that is normal message
 			for (SessionRecord ssr:sessionmap)

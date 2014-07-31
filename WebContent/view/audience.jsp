@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="controler.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,6 +21,13 @@ ws.onopen = function(){
 ws.onmessage = function(message)
 {
 	$("#status").html($("#status").html()+message.data);
+	if (message.data.indexOf("NEW AUDIENCE: ")==0)
+		{
+			$("#user-"+message.data.replace("NEW AUDIENCE: ","")).attr('class', 'userOn');
+			$("#user-"+message.data.replace("NEW AUDIENCE: ","")).html($("#user-"+message.data.replace("NEW AUDIENCE: ","")).html()+'<div class="umale" id="sex-<c:out value="${i}"/>"></div>');
+		}
+			
+		
 };
 ws.onclose = function(){
 	ws.close();
@@ -41,18 +49,22 @@ $.urlParam = function(name){
 	<input type="hidden" id="pos">
 	<div class="c1">
 		<div class="c11">
-				<c:forEach var="i" begin="31" end="50">
-		            <div class="userOff" id="user-<c:out value="${i}" />">
-		        		 <div class="umale" id="sex-<c:out value="${i}"/>"></div>
-		           		 <div class="numUser"><c:out value="${i}"/></div>
-		       		 </div>
-	          </c:forEach>
-	          <c:forEach var="i" begin="11" end="30">
-		            <div class="userOff" id="user-<c:out value="${i}" />">
-		        		 <div class="umale" id="sex-<c:out value="${i}"/>"></div>
-		           		 <div class="numUser"><c:out value="${i}"/></div>
-		       		 </div>
-	          </c:forEach>
+			<c:forEach var="i" begin="31" end="50">
+				<c:if test='<%=WSServer.getSessionRecord(String.valueOf(pageContext.getAttribute("i")))==null%>'>
+					<div class="userOff" id="user-<c:out value="${i}" />"><div class="numUser"><c:out value="${i}"/></div></div>
+				</c:if>
+				<c:if test='<%=WSServer.getSessionRecord(String.valueOf(pageContext.getAttribute("i")))!=null%>'>
+					<div class="userOn" id="user-<c:out value="${i}" />"><div class="umale" id="sex-<c:out value="${i}"/>"></div><div class="numUser"><c:out value="${i}"/></div></div>
+				</c:if>        	
+			</c:forEach>
+			<c:forEach var="i" begin="11" end="30">
+				<c:if test='<%=WSServer.getSessionRecord(String.valueOf(pageContext.getAttribute("i")))==null%>'>
+					<div class="userOff" id="user-<c:out value="${i}" />"><div class="numUser"><c:out value="${i}"/></div></div>
+				</c:if>
+				<c:if test='<%=WSServer.getSessionRecord(String.valueOf(pageContext.getAttribute("i")))!=null%>'>
+					<div class="userOn" id="user-<c:out value="${i}" />"><div class="umale" id="sex-<c:out value="${i}"/>"></div><div class="numUser"><c:out value="${i}"/></div></div>
+				</c:if>        	
+			</c:forEach>
 		</div>
 		<div class="c12">
 			<c:forEach var="i" begin="1" end="10">

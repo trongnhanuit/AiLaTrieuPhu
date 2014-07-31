@@ -21,13 +21,23 @@
             closeClick	: false,
             openEffect	: 'none',
             closeEffect	: 'none',
-            afterClose  : function() {location.href = "audience.jsp?pos="+$("#pos").val();}
+            afterClose  : function() {
+                var pos=$("#pos").val();
+                if (pos!="")
+                {
+                	$("#pos").val("");
+            		location.href = "audience.jsp?pos="+pos;
+            	}
+                else
+                    alert("Sao còn chưa chọn? Nhanh tay bạn nhé. Coi chừng hết chỗ bây giờ :)");
+                }
+                
     });
 });
 </script>
 </head>
 <body>
-	<input type="hidden" id="pos">
+	<input type="hidden" id="pos" value="">
 	<a class="ctbtn" id="choosePosition" data-fancybox-type="iframe" href="choosePosition.jsp">Khán giả</a>
 </body>
 </html>
