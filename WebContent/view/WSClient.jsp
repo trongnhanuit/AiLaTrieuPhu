@@ -10,6 +10,7 @@
 var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 //Connected to socket server, get @param message.
 ws.onopen = function(){
+	ws.send("15");
 	$("#status").html("Send request to Server...<br/>");
 };
 	// Receive data from server

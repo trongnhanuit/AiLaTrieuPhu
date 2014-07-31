@@ -31,6 +31,16 @@ body
 	background-size: contain;
 	margin: 3px 0px;
 }
+.userOn
+{
+	background-image:url(../media/useron.png);
+	width: 53px;
+	height: 60px;
+	background-repeat: no-repeat;
+	float: left;
+	background-size: contain;
+	margin: 3px 0px;
+}
 .umale
 {
 	float:left;
