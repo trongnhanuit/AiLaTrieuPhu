@@ -25,12 +25,17 @@ $(function() {
                           url: "http://localhost:8080/AiLaTrieuPhu/CheckAvailability",  
                           data: "username="+ username,  
                           success: function(msg){  
-                                  $(".status").html(msg);    
-                          }  
+							  if(msg.substring(0,2)==="OK")
+								  $(".status").html("<font color=\"green\"><b>"+username+"</b> có thể sử dụng</font>");
+							  else
+								  {
+                                  $(".status").html("<font color=\"red\"><b>"+username+"</b> đã được đăng kí</font>");
+                                  $(".username").val("");
+								  } 
+                          }, 
                       });   
                   }  
-                  else{  
-                         
+                  else{    
                       $(".status").html("<font color=red>Tên đăng nhập phải nhiều hơn <b>4</b> kí tự.</font>");  
                   }  
                     
@@ -67,7 +72,7 @@ $(function() {
     	<input type="text" name="playername" id="playername" required />
     	<br/>
     	<label for="username">Tài khoản:</label><br/>
-    	<input type="text" class="username" name="username" id="username" required/><span class="status"></span>  
+    	<input type="text" class="username" name="username" id="username" pattern=".{3,}" required/><span class="status"></span>  
     	<br/>
     	<label for="password">Mật khẩu:</label><br/>
     	<input type="password" name="password" id="password" required title="Mật khẩu phải ít nhất 6 kí tự, có chứa chữ hoa/ chữ thường và số" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"   this.setCustomValidity(this.validity.patternMismatch ? this.title : '');

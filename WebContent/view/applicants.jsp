@@ -10,13 +10,13 @@
 <body>
 	<div class="c1">
 		<div class="c11">
-				<c:forEach var="i" begin="30" end="49">
+				<c:forEach var="i" begin="31" end="50">
 		            <div class="userOff" id="user-<c:out value="${i}" />">
 		        		 <div class="umale" id="sex-<c:out value="${i}"/>"></div>
 		           		 <div class="numUser"><c:out value="${i}"/></div>
 		       		 </div>
 	          </c:forEach>
-	          <c:forEach var="i" begin="10" end="29">
+	          <c:forEach var="i" begin="11" end="30">
 		            <div class="userOff" id="user-<c:out value="${i}" />">
 		        		 <div class="umale" id="sex-<c:out value="${i}"/>"></div>
 		           		 <div class="numUser"><c:out value="${i}"/></div>
@@ -24,7 +24,7 @@
 	          </c:forEach>
 		</div>
 		<div class="c12">
-			<c:forEach var="i" begin="0" end="9">
+			<c:forEach var="i" begin="1" end="10">
 	            <div class="userOff" id="user-<c:out value="${i}" />">
 	        		 <div class="umale" id="sex-<c:out value="${i}"/>"></div>
 	           		 <div class="numUser"><c:out value="${i}"/></div>

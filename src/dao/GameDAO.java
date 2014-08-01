@@ -18,6 +18,7 @@ import java.util.List;
 
 import model.Player;
 import util.DatabaseConnection;
+import util.PasswordProcess;
 
 /*
  * Class GameDAO
@@ -31,19 +32,21 @@ public class GameDAO {
 		/*
 		 * Check login with @param name & pass (0: name& pass not correct, 1: wrong pass,2:ok ).
 		 */
-		public int checkLogin(Player player) throws SQLException{
-			int check=3;
+		public boolean checkLogin(Player player) throws SQLException{
+			boolean check = false;
 			String sql="SELECT password FROM player WHERE username=?";
+			PasswordProcess ps = new PasswordProcess();
 			try {
 				connection=DatabaseConnection.getConnection();
 				preparedStatement=connection.prepareStatement(sql);
 				preparedStatement.setString(1,player.getUsername());
 				resultSet=preparedStatement.executeQuery();
 				 if(resultSet.next()){
-					 check=1;
+					 check = false;
 					 String temp = resultSet.getString(1);
-					 if(temp.equals(player.getPassword())){
-						 check=2;
+					 if(ps.validatePassword(player.getPassword(), temp))
+					 {
+						 return true;
 					 }
 				 }
 			}catch (Exception ex) {}
@@ -53,11 +56,9 @@ public class GameDAO {
 			String sql="INSERT INTO player VALUES (null,?,?,?,?,?,?,?,0)";
 			try {
 				connection=DatabaseConnection.getConnection();
-/*				statement=connection.createStatement();
-				statement.executeUpdate(sql);*/
 				preparedStatement=connection.prepareStatement(sql);
 				preparedStatement.setString(1,player.getUsername());
-				preparedStatement.setString(2,player.getPassword());
+				preparedStatement.setString(2,PasswordProcess.generateStorngPasswordHash(player.getPassword()));
 				preparedStatement.setString(3,player.getPlayername());
 				preparedStatement.setString(4,player.getAddress());
 				preparedStatement.setInt(5,player.getBirthday());

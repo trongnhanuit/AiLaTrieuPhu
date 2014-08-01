@@ -1,5 +1,7 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=origin/master
 eclipse.preferences.version=1
-encoding//WebContent/view/mainScreen.jsp=UTF-8
 encoding//src/controller/LoginController.java=UTF-8
 encoding//src/model/Function.java=UTF-8
 encoding//src/util/CheckAvailability.java=UTF-8

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -28,14 +29,14 @@ public class LoginController extends HttpServlet {
 		player.setUsername(request.getParameter("usernamel"));
 		player.setPassword(request.getParameter("password"));
 		GameDAO game = new GameDAO();
-		int check = 3;
+		boolean check = false;
 		try {
 			check = game.checkLogin(player);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(check==2) response.sendRedirect("http://google.com");
+		if(check) response.sendRedirect("http://google.com");
 		else 
 		{
 			response.sendRedirect("view/login.jsp");

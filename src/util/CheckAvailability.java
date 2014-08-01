@@ -31,10 +31,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             ResultSet rs = ps.executeQuery();  
                
             if (!rs.next()) {  
-                out.printf("<font color=\"green\"><b>"+uname+"</b> có thể sử dụng</font>");  
+                out.printf("OK");  
             }  
-            else{  
-            out.printf("<font color=\"red\"><b>"+uname+"</b> đã được đăng kí</font>");  
+            else{      
+            	out.printf("Error");
             }  
             out.println();  
   

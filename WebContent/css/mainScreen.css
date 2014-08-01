@@ -1,6 +1,5 @@
 body
 {
-	background: url("Image/bg100.jpg") fixed;
 	background-repeat: no-repeat;
 	position: absolute;
 	margin: 0px;
@@ -25,6 +24,16 @@ body
 .userOff
 {
 	background-image:url(../media/useroff.png);
+	width: 53px;
+	height: 60px;
+	background-repeat: no-repeat;
+	float: left;
+	background-size: contain;
+	margin: 3px 0px;
+}
+.userOn
+{
+	background-image:url(../media/useron.png);
 	width: 53px;
 	height: 60px;
 	background-repeat: no-repeat;
@@ -60,7 +69,6 @@ body
 {
 	height: 500px;
 	width: 250px;
-	background-color: #804040;
 	float: left;
 }
 
@@ -68,7 +76,6 @@ body
 {
 	height: 500px;
 	width: 250px;
-	background-color: #804040;
 	float: left;
 }
 
