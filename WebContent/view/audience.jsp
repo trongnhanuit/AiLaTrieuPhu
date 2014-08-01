@@ -21,12 +21,16 @@ ws.onopen = function(){
 ws.onmessage = function(message)
 {
 	$("#status").html($("#status").html()+message.data);
-	if (message.data.indexOf("NEW AUDIENCE: ")==0)
+	if (message.data.indexOf("AUDIENCE IN: ")==0)
 		{
-			$("#user-"+message.data.replace("NEW AUDIENCE: ","")).attr('class', 'userOn');
-			$("#user-"+message.data.replace("NEW AUDIENCE: ","")).html($("#user-"+message.data.replace("NEW AUDIENCE: ","")).html()+'<div class="umale" id="sex-<c:out value="${i}"/>"></div>');
+			$("#user-"+message.data.replace("AUDIENCE IN: ","")).attr('class', 'userOn');
+			$("#user-"+message.data.replace("AUDIENCE IN: ","")).html($("#user-"+message.data.replace("AUDIENCE IN: ","")).html()+'<div class="umale" id="sex-'+message.data.replace("AUDIENCE OUT: ","")+'"></div>');
 		}
-			
+	if (message.data.indexOf("AUDIENCE OUT: ")==0)
+		{
+			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).attr('class', 'userOff');
+			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
+		}		
 		
 };
 ws.onclose = function(){

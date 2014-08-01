@@ -25,9 +25,12 @@ public class WSServer {
 	@OnClose
 	public void onClose(Session session, CloseReason closeReason) throws IOException
 	{
+		String pos=getSessionRecord(session).pos;
 		sessionmap.remove(getSessionRecord(session));
-		for (SessionRecord ssr:sessionmap)
-			ssr.session.getBasicRemote().sendText(session.getId()+" closed. <br/>");
+		// if that is an audience -> notice to everybody
+		if (!pos.equals("-1") && !pos.equals("00"))// neither mc nor mainplayer
+			for (SessionRecord ssr:sessionmap)
+				ssr.session.getBasicRemote().sendText("AUDIENCE OUT: "+pos);
 	}
 	
 	@OnMessage
@@ -37,8 +40,10 @@ public class WSServer {
 		if (msg.length()==2)
 		{
 			sessionmap.add(new SessionRecord(session, msg));
-			for (SessionRecord ssr:sessionmap)
-				ssr.session.getBasicRemote().sendText("NEW AUDIENCE: "+msg);
+			// if that is an audience -> notice to everybody
+			if (!msg.equals("-1") && !msg.equals("00"))// neither mc nor mainplayer
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("AUDIENCE IN: "+msg);
 		}
 		else // Else that is normal message
 			for (SessionRecord ssr:sessionmap)
