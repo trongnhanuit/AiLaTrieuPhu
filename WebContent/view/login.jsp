@@ -92,7 +92,7 @@ $(function() {
     	<input type="number" name="birthday" id="birthday" min="1950" max="2000" size="6" required/>
     	<br/>
     	<label for="address">Địa chỉ:</label><br/>
-    	<input type="text" name="address" id="address" required/>
+    	<input type="text" name="address" id="address" pattern=".{3,44}" required/>
     	<br/>
     	<label for="govermentid">Số CMND:</label><br/>
     	<input type="text" name="govermentid" id="govermentid" required/>

@@ -2,7 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.GameDAO;
+import util.PasswordProcess;
+import model.Function;
 import model.Player;
 
 /**
@@ -25,23 +29,34 @@ public class LoginController extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Player player= new Player();
-		player.setUsername(request.getParameter("usernamel"));
-		player.setPassword(request.getParameter("password"));
-		GameDAO game = new GameDAO();
-		boolean check = false;
-		try {
-			check = game.checkLogin(player);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<Player> ql= Function.select(Player.class,"username='"+request.getParameter("usernamel")+"'");
+		if(!ql.isEmpty())
+		{
+		for(Player emp : ql)
+			{
+			try {
+				if(PasswordProcess.validatePassword(request.getParameter("password"), emp.getPassword()))
+				 {
+					response.sendRedirect("http://google.com");
+					 break;
+				 }
+				else 
+				{
+					response.sendRedirect("view/login.jsp");
+				}
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidKeySpecException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
 		}
-		if(check) response.sendRedirect("http://google.com");
 		else 
 		{
 			response.sendRedirect("view/login.jsp");
 		}
-		
 	}
 
 }
