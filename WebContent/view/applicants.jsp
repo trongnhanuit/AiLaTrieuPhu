@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="controler.*" %>
+<%@page import="controller.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -77,7 +77,15 @@ $.urlParam = function(name){
 	</div>
 	<div class="c2">
 		<div class="c2l">
-			<div class="c2l1"></div>
+			<div class="c2l1">
+				<div class="c2l1title">TRỢ GIÚP</div>
+				<div class="c2l1content">
+					<div class="c2l1content1" id="c2l1content1"></div>
+					<div class="c2l1content1" id="c2l1content2"></div>
+					<div class="c2l1content1" id="c2l1content3"></div>
+					<div class="c2l1content1" id="c2l1content4"></div>
+				</div>
+			</div>
 			<div class="c2l2"></div>
 		</div> 
 		<div class="c2c">

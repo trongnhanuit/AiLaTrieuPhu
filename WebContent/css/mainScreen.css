@@ -92,7 +92,7 @@ body
 {
 	height: 200px;
 	width: 250px;
-	background-color: Yellow
+	background-color: black
 }
 
 .c2c 
@@ -116,5 +116,68 @@ body
 {
 	height: 200px;
 	width: 250px;
-	background-color: Yellow
+	background-color: black
+}
+
+.c2l1content1 
+{
+	height: 60px;
+	width: 85px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	float: left;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#c2l1content1
+{
+	background-image: url("./../media/help01.png");
+} 
+#c2l1content2
+{
+	background-image: url("./../media/help02.png");
+} 
+#c2l1content3
+{
+	background-image: url("./../media/help03.png");
+} 
+#c2l1content4
+{
+	background-image: url("./../media/help04.png");
+} 
+#c2l1content1:hover
+{
+	background-image: url("./../media/help01hover.png");
+}
+
+#c2l1content2:hover
+{
+	background-image: url("./../media/help02hover.png");
+}
+
+#c2l1content3:hover
+{
+	background-image: url("./../media/help03hover.png");
+}
+
+#c2l1content4:hover
+{
+	background-image: url("./../media/help04hover.png");
+}
+
+.c2l1title 
+{
+	color: white;
+	width: 250px;
+	font-size: large;
+	background-color: #004080;
+	text-align: center;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.c2l1content 
+{
+	padding-top: 20px
 }
