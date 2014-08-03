@@ -20,6 +20,14 @@ body {
 	border-top: 1px solid blue;
 	padding: 30px;
 }
+.error
+{
+	font-size: 13px;
+	color: red;
+	font-family: Arial;
+	font-style: italic
+	
+}
 input:required:invalid, input:focus:invalid, textarea:required:invalid, textarea:focus:invalid 
 {
 background-image: url(../media/inv.png);

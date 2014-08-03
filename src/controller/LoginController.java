@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +44,11 @@ public class LoginController extends HttpServlet {
 				 }
 				else 
 				{
-					response.sendRedirect("view/login.jsp");
+					response.setContentType("text/html; charset=UTF-8");
+					Cookie user_cookie=new Cookie("error",URLEncoder.encode("Sai mật khẩu! Vui lòng thử lại", "UTF-8"));
+		            user_cookie.setMaxAge(5);
+		            response.addCookie(user_cookie);
+		            response.sendRedirect("/AiLaTrieuPhu/view/login.jsp");
 				}
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
@@ -55,8 +61,11 @@ public class LoginController extends HttpServlet {
 		}
 		else 
 		{
-			response.sendRedirect("view/login.jsp");
+            response.setContentType("text/html; charset=UTF-8");
+			Cookie user_cookie=new Cookie("error",URLEncoder.encode("Tên đăng nhập không tồn tại! Vui lòng thử lại", "UTF-8"));
+            user_cookie.setMaxAge(5);
+            response.addCookie(user_cookie);
+            response.sendRedirect("/AiLaTrieuPhu/view/login.jsp");
 		}
 	}
-
 }

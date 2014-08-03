@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import="java.net.URLDecoder"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +43,14 @@ $(function() {
               });  
           });  
         </script>
+<%! String error;%>
+<% error="";
+Cookie[] cookies=request.getCookies();
+if (cookies!=null)
+    for(Cookie cookie:cookies)
+        if (cookie.getName().equals("error"))
+            error=URLDecoder.decode(cookie.getValue(), "UTF-8");
+%>
 </head>
 <body>
 <div class="wrapper">
@@ -53,10 +62,11 @@ $(function() {
     <li><a href="#register">Đăng kí</a></li>
   </ul>
   <div id="login">
-    <form method="post" action="http://localhost:8080/AiLaTrieuPhu/LoginController">
+    <form method="POST" action="http://localhost:8080/AiLaTrieuPhu/LoginController">
     	<label for="usernamel">Tên đăng nhập:</label>
     	<br/>
     	<input type="text" name="usernamel" id="usernamel" required/>
+    	<div class="error"><%= (String) error %></div>
     	<br/>
     	<label for="password">Mật khẩu:</label>
     	<br/>
