@@ -30,6 +30,7 @@ body
 	float: left;
 	background-size: contain;
 	margin: 3px 0px;
+	cursor: pointer;
 }
 .userOn
 {
@@ -40,6 +41,29 @@ body
 	float: left;
 	background-size: contain;
 	margin: 3px 0px;
+	cursor: pointer;
+}
+.userHelp
+{
+	background-image:url(../media/userhelp.png);
+	width: 53px;
+	height: 60px;
+	background-repeat: no-repeat;
+	float: left;
+	background-size: contain;
+	margin: 3px 0px;
+	cursor: pointer;
+}
+.userChoise
+{
+	background-image:url(../media/userchoise.png);
+	width: 53px;
+	height: 60px;
+	background-repeat: no-repeat;
+	float: left;
+	background-size: contain;
+	margin: 3px 0px;
+	cursor: pointer;
 }
 .umale
 {
@@ -119,7 +143,7 @@ body
 	background-color: black
 }
 
-.c2l1content1 
+.help
 {
 	height: 60px;
 	width: 85px;
@@ -129,42 +153,57 @@ body
 	margin-left: 20px;
 	margin-right: 20px;
 }
-#c2l1content1
+#help01
 {
 	background-image: url("./../media/help01.png");
 } 
-#c2l1content2
+#help02
 {
 	background-image: url("./../media/help02.png");
 } 
-#c2l1content3
+#help03
 {
 	background-image: url("./../media/help03.png");
 } 
-#c2l1content4
+#help04
 {
 	background-image: url("./../media/help04.png");
 } 
-#c2l1content1:hover
+#help01:hover
 {
 	background-image: url("./../media/help01hover.png");
 }
 
-#c2l1content2:hover
+#help02:hover
 {
 	background-image: url("./../media/help02hover.png");
 }
 
-#c2l1content3:hover
+#help03:hover
 {
 	background-image: url("./../media/help03hover.png");
 }
 
-#c2l1content4:hover
+#help04:hover
 {
 	background-image: url("./../media/help04hover.png");
 }
-
+#help01used
+{
+	background-image: url("./../media/help01used.png");
+}
+#help02used
+{
+	background-image: url("./../media/help02used.png");
+}
+#help03used
+{
+	background-image: url("./../media/help03used.png");
+}
+#help04used
+{
+	background-image: url("./../media/help04used.png");
+}
 .c2l1title 
 {
 	color: white;
@@ -180,4 +219,58 @@ body
 .c2l1content 
 {
 	padding-top: 20px
+}
+
+.c2c1 {
+	height: 50px;
+	text-align: center;
+	color: White;
+	width: 845px;
+	background-color: #400000
+}
+
+.c2c2 {
+	height: 110px;
+	width: 845px
+}
+
+.c2c3 {
+	height: 110px;
+	width: 845px
+}
+
+.c2c4 {
+	height: 100px;
+	width: 845px;
+	background-color: #400000;
+	color: white;
+}
+
+.c2c5 {
+	height: 130px;
+	width: 845px;
+	background-color: #004000
+}
+
+.ans
+{
+	font-size: 35px;
+	color: #fff;
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 15px;
+	width: 45px;
+	height: 60px;
+}
+
+.answer 
+{
+	height: 100px;
+	color: White;
+	width: 410px;
+	border-style: outset;
+	background-color: #804000;
+	border-color: Cyan;
+	float: left
 }

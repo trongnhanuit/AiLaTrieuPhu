@@ -6,50 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../css/mainScreen.css" rel="stylesheet" type="text/css">
-<title>NHV - Ai là triệu phú</title>
+<title>AUDIENCE - AI LÀ TRIỆU PHÚ</title>
 <script type="text/javascript" src="../js/jquery-1.10.1.min.js"></script>
-<script type="text/javascript">
-var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
-//Connected to socket server, get @param message.
-ws.onopen = function(){
-	var pos=$.urlParam('pos');
-	$("#pos").val(pos);
-	ws.send(pos);
-	$("#status").html("Send request to Server...<br/>");
-};
-	// Receive data from server
-ws.onmessage = function(message)
-{
-	$("#status").html($("#status").html()+message.data);
-	if (message.data.indexOf("AUDIENCE IN: ")==0)
-		{
-			$("#user-"+message.data.replace("AUDIENCE IN: ","")).attr('class', 'userOn');
-			$("#user-"+message.data.replace("AUDIENCE IN: ","")).html($("#user-"+message.data.replace("AUDIENCE IN: ","")).html()+'<div class="umale" id="sex-'+message.data.replace("AUDIENCE OUT: ","")+'"></div>');
-		}
-	if (message.data.indexOf("AUDIENCE OUT: ")==0)
-		{
-			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).attr('class', 'userOff');
-			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
-		}		
-		
-};
-ws.onclose = function(){
-	ws.close();
-};
-$(function(){
-    $("#btnSend").click(function(){
-        var s=$("#txtcontent").val();
-        ws.send(s);
-    });
-    });
-
-$.urlParam = function(name){
-    var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
-    return results[1] || 0;
-}
-</script>
+<script type="text/javascript" src="../js/audience.js"></script>
 </head>
 <body>
+	<input type="hidden" id="answerforhelp" value="NO">
 	<input type="hidden" id="pos">
 	<div class="c1">
 		<div class="c11">
@@ -71,12 +33,21 @@ $.urlParam = function(name){
 			</c:forEach>
 		</div>
 		<div class="c12">
-			<c:forEach var="i" begin="1" end="10">
-	            <div class="userOff" id="user-<c:out value="${i}" />">
-	        		 <div class="umale" id="sex-<c:out value="${i}"/>"></div>
-	           		 <div class="numUser"><c:out value="${i}"/></div>
-	       		 </div>
-		   	</c:forEach>
+			<c:forEach var="i" begin="1" end="9">
+				<c:if test='<%=WSServer.getSessionRecord("0"+String.valueOf(pageContext.getAttribute("i")))==null%>'>
+					<div class="userOff" id="user-0<c:out value="${i}" />"><div class="numUser">0<c:out value="${i}"/></div></div>
+				</c:if>
+				<c:if test='<%=WSServer.getSessionRecord("0"+String.valueOf(pageContext.getAttribute("i")))!=null%>'>
+					<div class="userOn" id="user-0<c:out value="${i}" />"><div class="umale" id="sex-0<c:out value="${i}"/>"></div><div class="numUser">0<c:out value="${i}"/></div></div>
+				</c:if>        	
+			</c:forEach>
+			
+		   	<c:if test='<%=WSServer.getSessionRecord("10")==null%>'>
+				<div class="userOff" id="user-10"><div class="numUser">10</div></div>
+			</c:if>
+			<c:if test='<%=WSServer.getSessionRecord("10")!=null%>'>
+				<div class="userOn" id="user-10"><div class="umale" id="sex-10"></div><div class="numUser">10</div></div>
+			</c:if> 
 		</div>
 	</div>
 	<div class="c2">
@@ -84,18 +55,30 @@ $.urlParam = function(name){
 			<div class="c2l1">
 				<div class="c2l1title">TRỢ GIÚP</div>
 				<div class="c2l1content">
-					<div class="c2l1content1" id="c2l1content1"></div>
-					<div class="c2l1content1" id="c2l1content2"></div>
-					<div class="c2l1content1" id="c2l1content3"></div>
-					<div class="c2l1content1" id="c2l1content4"></div>
+					<div class="help" id="help01"></div>
+					<div class="help" id="help02"></div>
+					<div class="help" id="help03"></div>
+					<div class="help" id="help04"></div>
 				</div>
 			</div>
 			<div class="c2l2"></div>
 		</div> 
 		<div class="c2c">
-			Enter value to send: <input type="text" id="txtcontent" value="test"> <br/>
-			<input type="button" value="send" id="btnSend"><br/>
-			Status: <div id="status"></div>
+			<div class="c2c1">Noi dung cau hoi</div>
+			<div class="c2c2">
+				<div class="answer" id="answera">A</div>
+				<div class="answer" id="answerb">B</div>
+			</div>
+			<div class="c2c3">
+				<div class="answer" id="answerc">C</div>
+				<div class="answer" id="answerd">D</div>
+			</div>
+			<div class="c2c4"></div>
+			<div class="c2c5">
+				Enter value to send: <input type="text" id="txtcontent" value="test"> <br/>
+				<input type="button" value="send" id="btnSend"><br/>
+				Status: <div id="status"></div>
+			</div>
 		</div> 
 		<div class="c2r">
 			<div class="c2r1"></div>

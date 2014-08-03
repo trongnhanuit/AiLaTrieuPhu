@@ -14,6 +14,7 @@ body
 	float: left;
 	background-size: contain;
 	margin: 3px 0px;
+	cursor: pointer;
 }
 .userOn
 {
@@ -24,6 +25,7 @@ body
 	float: left;
 	background-size: contain;
 	margin: 3px 0px;
+	cursor: pointer;
 }
 .umale
 {
