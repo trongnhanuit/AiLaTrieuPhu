@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.PasswordProcess;
 import model.Function;
 import model.Player;
 
@@ -45,7 +44,7 @@ public class SignupController extends HttpServlet {
 		Player player = new Player();
 		player.setUsername(request.getParameter("username"));
 		try {
-			player.setPassword(PasswordProcess.generateStorngPasswordHash(request.getParameter("password")));
+			player.setPassword(Function.generateStorngPasswordHash(request.getParameter("password")));
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import util.PasswordProcess;
 import model.Function;
 import model.Player;
 
@@ -37,7 +36,7 @@ public class LoginController extends HttpServlet {
 		for(Player emp : ql)
 			{
 			try {
-				if(PasswordProcess.validatePassword(request.getParameter("password"), emp.getPassword()))
+				if(Function.validatePassword(request.getParameter("password"), emp.getPassword()))
 				 {
 					response.sendRedirect("http://google.com");
 					 break;
