@@ -1,8 +1,4 @@
-/util
-/controler
 /controller
-<<<<<<< HEAD
-=======
-/dao
->>>>>>> origin/master
+/hibernate.cfg.xml
 /model
+/util
