@@ -1,47 +1,28 @@
 @ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import="java.net.URLDecoder"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Đăng nhập - Đăng kí</title>
-<link rel="stylesheet" href="../css/jquery-ui.css">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/login.css">
 <link rel="shortcut icon" type="image/png" href="../media/logo.png"/>
 <script src="../js/jquery-1.11.1.js"></script>
 <script src="../js/jquery-ui.js"></script>
+<script src="../js/login.js"></script>
 <script>
 $(function() {
   $( "#tabs" ).tabs();
 });
 </script>
-<script type="text/javascript">  
-          $(document).ready(function(){  
-              $(".username").change(function(){ 
-                  var username = $(this).val();  
-                  if(username.length >= 4){  
-                      $(".status").html("<img src='../media/loading.gif'><font color=gray> Kiểm tra khả dụng...</font>");  
-                       $.ajax({  
-                          type: "POST",  
-                          url: "http://localhost:8080/AiLaTrieuPhu/CheckAvailability",  
-                          data: "username="+ username,  
-                          success: function(msg){  
-							  if(msg.substring(0,2)==="OK")
-								  $(".status").html("<font color=\"green\"><b>"+username+"</b> có thể sử dụng</font>");
-							  else
-								  {
-                                  $(".status").html("<font color=\"red\"><b>"+username+"</b> đã được đăng kí</font>");
-                                  $(".username").val("");
-								  } 
-                          }, 
-                      });   
-                  }  
-                  else{    
-                      $(".status").html("<font color=red>Tên đăng nhập phải nhiều hơn <b>4</b> kí tự.</font>");  
-                  }  
-                    
-              });  
-          });  
-        </script>
+<%! String error;%>
+<% error="";
+Cookie[] cookies=request.getCookies();
+if (cookies!=null)
+    for(Cookie cookie:cookies)
+        if (cookie.getName().equals("error"))
+            error=URLDecoder.decode(cookie.getValue(), "UTF-8");
+%>
 </head>
 <body>
 <div class="wrapper">
@@ -53,10 +34,11 @@ $(function() {
     <li><a href="#register">Đăng kí</a></li>
   </ul>
   <div id="login">
-    <form method="post" action="http://localhost:8080/AiLaTrieuPhu/LoginController">
+    <form method="POST" action="http://localhost:8080/AiLaTrieuPhu/LoginController">
     	<label for="usernamel">Tên đăng nhập:</label>
     	<br/>
     	<input type="text" name="usernamel" id="usernamel" required/>
+    	<div class="error"><%= (String) error %></div>
     	<br/>
     	<label for="password">Mật khẩu:</label>
     	<br/>
@@ -95,13 +77,14 @@ $(function() {
     	<input type="text" name="address" id="address" pattern=".{3,44}" required/>
     	<br/>
     	<label for="govermentid">Số CMND:</label><br/>
-    	<input type="text" name="govermentid" id="govermentid" required/>
+    	<input type="text" class="govermentid" name="govermentid" id="govermentid" required/><span class="status2"></span> 
     	<br/>
     	<input type="submit" value="Đăng kí">
   	</form>
   </div>
 </div>
 </div>
+<a href="#" class="btn">Tôi là khán giả!</a>
 </div>
 </body>
 </html>

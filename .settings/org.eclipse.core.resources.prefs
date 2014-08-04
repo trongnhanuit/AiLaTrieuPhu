@@ -4,11 +4,15 @@
 eclipse.preferences.version=1
 encoding//WebContent/js/applicants.js=UTF-8
 encoding//WebContent/js/audience.js=UTF-8
+encoding//WebContent/js/login.js=UTF-8
 encoding//WebContent/js/mainplayer.js=UTF-8
 encoding//WebContent/js/mc.js=UTF-8
+<<<<<<< HEAD
 encoding//WebContent/view/login.jsp=UTF-8
 encoding//src/controller/Chart.java=UTF-8
+=======
+encoding//src/controller/CheckUser.java=UTF-8
+>>>>>>> origin/master
 encoding//src/controller/LoginController.java=UTF-8
 encoding//src/controller/WSServer.java=UTF-8
 encoding//src/model/Function.java=UTF-8
-encoding//src/util/CheckAvailability.java=UTF-8
