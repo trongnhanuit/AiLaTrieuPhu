@@ -31,12 +31,17 @@ ws.onmessage = function(message)
 		{
 			$("#user-"+arr[i]).attr('class', 'userChoise');
 			$("#user-"+arr[i]).html('<div class="numUser">'+arr[i]+'</div><div class="ans">'+arr[3+i].toUpperCase()+'</div>');
-		}
-			
+		}		
+	}
+	
+	if (message.data.indexOf("RESPONSE help03: ")==0)
+	{
+		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2r1").html());
+		$( "#showChart" ).trigger("click");
 	}
 };
 ws.onclose = function(){
-	alert("Bạn đã mất kết nối. Vui lòng chờ trong khi chúng tôi đang cố gắng kết nối lại!");
+	alert("Bạn đã mất kết nối. Vui lòng kết nối lại bạn nhé!");
 	ws.close();
 };
 
@@ -111,16 +116,23 @@ $(function(){
 				ws.send("CHOISE LIST help04: "+$("#choiselist").val());
 		}	
 	});
-    //===========================================================================================================
-    
+    //=========================================================================================================== 
     });
 
-// Choise Audience for help04
-$(function(){
-	
+// Fancybox for help03
+$(document).ready(function() {
+    $("#showChart").fancybox({
+            maxWidth	: 600,
+            maxHeight	: 600,
+            fitToView	: false,
+            width		: '50%',
+            height		: '60%',
+            autoSize	: false,
+            closeClick	: false,
+            openEffect	: 'none',
+            closeEffect	: 'none'
     });
-
-
+});
 
 $(function(){
     $("#btnSend").click(function(){

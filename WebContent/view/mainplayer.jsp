@@ -9,6 +9,10 @@
 <title>MAIN PLAYER - AI LÀ TRIỆU PHÚ</title>
 <script type="text/javascript" src="../js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="../js/mainplayer.js"></script>
+<script type="text/javascript" src="../js/lightbox/lib/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../js/lightbox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+<script type="text/javascript" src="../js/lightbox/source/jquery.fancybox.js?v=2.1.5"></script>
+<link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
 </head>
 <body>
 	<input type="hidden" id="choiselist" value="NO">

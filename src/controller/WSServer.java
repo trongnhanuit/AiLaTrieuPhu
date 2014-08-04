@@ -11,12 +11,20 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import model.*;
 
 @javax.websocket.server.ServerEndpoint(value="/servertest")
 public class WSServer {
 	private static Set<SessionRecord> sessionmap = Collections.synchronizedSet(new HashSet<SessionRecord>());
 	private static Set<ResultRecord> resultmap;
+	// Varible for timer
+	static int interval;
+	Timer timer;
+	// Thong ke dap an
+	public static int ansA, ansB, ansC, ansD;
 	
 	@OnOpen
 	public void onOpen(Session session) throws IOException
@@ -53,14 +61,26 @@ public class WSServer {
 			for (SessionRecord ssr:sessionmap)
 				ssr.session.getBasicRemote().sendText(session.getId()+" sent : "+msg+"<br/>");
 			
-			// Help04
+			// HELP04
 			// Mainplayer request
-			if (msg.indexOf("REQUEST help04")==0)
+			if (msg.indexOf("REQUEST help04")==0 || msg.indexOf("REQUEST help03")==0)
 			{
 				resultmap = Collections.synchronizedSet(new HashSet<ResultRecord>());
 				for (SessionRecord ssr:sessionmap)
 					if (!ssr.pos.equals("00"))
-						ssr.session.getBasicRemote().sendText("REQUEST help04");
+						ssr.session.getBasicRemote().sendText(msg);
+				
+				// Nếu là help03 thì bắt đầu tính thời gian gửi kết quả
+				if (msg.indexOf("REQUEST help03")==0)
+				{
+					ansA=0; ansB=0; ansC=0; ansD=0;
+					interval=12;
+					timer=new Timer();
+					timer.schedule(new TimerTask() 
+					{
+						public void run() {try {setInterval();} catch (IOException e) {e.printStackTrace();}}
+					}, 1000,1000);
+				}
 			}
 			// audience + applicants response
 			if (msg.indexOf("RESPONSE help04: ")==0)
@@ -87,7 +107,21 @@ public class WSServer {
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("RESULT help04: "+msg.replace("CHOISE LIST help04: ", "")+";"+resultlist);
 			}
-				
+			
+			// HELP04
+			// Mainplayer request -> xài ké hàm với help04
+			// audience + applicants response
+			if (msg.indexOf("RESPONSE help03: ")==0)
+			{		
+				// Thong ke ket qua
+				switch(msg.replace("RESPONSE help03: ", "")) 
+				{
+				    case "a": ansA++; break;
+				    case "b": ansB++; break;
+				    case "c": ansC++; break;
+				    case "d": ansD++; break;
+				}
+			}
 		}
 	}
 	
@@ -104,5 +138,20 @@ public class WSServer {
 			if (ssr.pos.equals(pos))
 				return ssr;
 		return null;
+	}
+	
+	private final void setInterval() throws IOException 
+	{
+	    if (interval == 0)
+	    {
+	    	// Bat buoc phai tao doi tuong tk thi moi lay dc ket qua. Con khong thi se bi 0;0;0;0
+	    	ThongKeTraLoi tk=new ThongKeTraLoi();
+	    	tk.setValues();
+	    	
+	    	for (SessionRecord ssr:sessionmap)
+				ssr.session.getBasicRemote().sendText("RESPONSE help03: "+tk.ansA+";"+tk.ansB+";"+tk.ansC+";"+tk.ansD);
+	        timer.cancel();
+	    }
+	    interval--;
 	}
 }

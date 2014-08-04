@@ -72,8 +72,7 @@ public class Function {
 		update(Question.class,"content='updated2'","questionID=102");
 		
 		//DELETE
-		delete(Question.class,"questionID=103");
-		
+		delete(Question.class,"questionID=103");	
 	}
 
 }

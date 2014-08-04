@@ -19,12 +19,17 @@ ws.onmessage = function(message)
 		{
 			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).attr('class', 'userOff');
 			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
-		}		
-	if (message.data.indexOf("REQUEST help04")==0)
+		}	
+	
+	// HELP04
+	if (message.data.indexOf("REQUEST help04")==0|| message.data.indexOf("REQUEST help03")==0)
 		{
-			$("#help04").attr("id","help04used");
-			$("#answerforhelp").val("YES");
-			$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Tư vấn tại chỗ\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn biết là đúng. Lưu ý: không bắt buộc chọn đáp án nếu như bạn không chắn chắc với đáp án của mình bạn nhé!");
+			$("#"+message.data.replace("REQUEST ","")).attr("id",message.data.replace("REQUEST ","")+"used");
+			$("#answerfor"+message.data.replace("REQUEST ","")).val("YES");
+			if (message.data.indexOf("REQUEST help04")==0)
+				$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Tư vấn tại chỗ\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn biết là đúng. Lưu ý: không bắt buộc chọn đáp án nếu như bạn không chắn chắc với đáp án của mình bạn nhé!");
+			else
+				$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Hỏi ý kiến khán giả\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn cho là đúng.");
 		}
 	if (message.data.indexOf("RESPONSE help04: ")==0)
 		$("#user-"+message.data.replace("RESPONSE help04: ","")).attr('class', 'userHelp');	
@@ -37,21 +42,23 @@ ws.onmessage = function(message)
 			$("#user-"+arr[i]).html('<div class="numUser">'+arr[i]+'</div><div class="ans">'+arr[3+i].toUpperCase()+'</div>');
 		}
 	}
+	
+	//HELP03
+	if (message.data.indexOf("RESPONSE help03: ")==0)
+	{
+		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2r1").html());
+		$( "#showChart" ).trigger("click");
+	}
 };
 ws.onclose = function(){
-	alert("Bạn đã mất kết nối. Vui lòng chờ trong khi chúng tôi đang cố gắng kết nối lại!");
+	alert("Bạn đã mất kết nối. Vui lòng kết nối lại bạn nhé!");
 	ws.close();
-};
-
-$.urlParam = function(name){
-    var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
-    return results[1] || 0;
 };
 
 $(function(){
     $(".answer").click(function(){
-    	// Only accecpt answer when be requested (answerforhelp!="NO")
-    	if ($("#answerforhelp").val()!="NO")
+    	// Only accecpt answer when be requested (answerforhelp04!="NO" or answerforhelp03!="NO")
+    	if ($("#answerforhelp04").val()!="NO" || $("#answerforhelp03").val()!="NO")
 		{
     		// restore to default background color before set new color for user's choise
     		$("#answera").css('background','#804000');
@@ -62,7 +69,10 @@ $(function(){
     		// set new color for user's choise
     		$(this).css('background','red');
     		
-    		$("#answerforhelp").val($( this ).attr('id').replace("answer",""));
+    		if ($("#answerforhelp04").val()!="NO")
+    			$("#answerforhelp04").val($( this ).attr('id').replace("answer",""));
+    		else
+    			$("#answerforhelp03").val($( this ).attr('id').replace("answer",""));
 		}
     });
     });
@@ -71,20 +81,53 @@ $(function(){
 setInterval(timer,1000), second=10;
 function timer()
 {
-	if ($("#answerforhelp").val()!="NO")
+	if ($("#answerforhelp04").val()!="NO"||$("#answerforhelp03").val()!="NO")
 	{
-		$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Tư vấn tại chỗ\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn biết là đúng. Lưu ý: không bắt buộc chọn đáp án nếu như bạn không chắn chắc với đáp án của mình bạn nhé!. Thời gian còn lại: "+second);
+		// Show time
+		if ($("#answerforhelp04").val()!="NO")
+			$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Tư vấn tại chỗ\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn biết là đúng. Lưu ý: không bắt buộc chọn đáp án nếu như bạn không chắn chắc với đáp án của mình bạn nhé!. Thời gian còn lại: "+second);
+		else
+			$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Hỏi ý kiến khán giả\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn cho là đúng.Thời gian còn lại: "+second);
+		
 		second--;
+		
+		// timeout
 		if (second==-1)
 			{
-				if ($("#answerforhelp").val()!="YES")
-					ws.send("RESPONSE help04: "+$("#answerforhelp").val());
+				// Choose value to send.
+				if ($("#answerforhelp04").val()!="NO"&&$("#answerforhelp04").val()!="YES")
+					ws.send("RESPONSE help04: "+$("#answerforhelp04").val());
+				if ($("#answerforhelp03").val()!="NO"&&$("#answerforhelp03").val()!="YES")
+					ws.send("RESPONSE help03: "+$("#answerforhelp03").val());
+				
+				// Reset everything
 				second=10;
-				$("#answerforhelp").val("NO");
+				$("#answerforhelp03").val("NO");
+				$("#answerforhelp04").val("NO");
 				$(".c2c4").html("");
 			}
 	}
 }
+
+$(document).ready(function() {
+    $("#showChart").fancybox({
+            maxWidth	: 600,
+            maxHeight	: 600,
+            fitToView	: false,
+            width		: '50%',
+            height		: '60%',
+            autoSize	: false,
+            closeClick	: false,
+            openEffect	: 'none',
+            closeEffect	: 'none'
+    });
+    
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+        return results[1] || 0;
+    };
+});
+
 $(function(){
     $("#btnSend").click(function(){
         var s=$("#txtcontent").val();
