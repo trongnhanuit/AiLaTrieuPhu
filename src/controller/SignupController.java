@@ -60,6 +60,7 @@ public class SignupController extends HttpServlet {
 		player.setSex(sex);
 		player.setStatus(0);
 		Function.insert(player);
+		response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/login.jsp");
 	}
 
 }

@@ -29,7 +29,7 @@
   $(document).ready(function(){  
       $(".govermentid").change(function(){ 
       var govermentid = $(this).val();  
-      if(govermentid.length != 9){
+      if(govermentid.length == 9){
           $(".status2").html("<img src='../media/loading.gif'><font color=gray> Kiểm tra khả dụng...</font>");  
            $.ajax({  
               type: "POST",  
@@ -47,7 +47,7 @@
           });   
       }  
       else{    
-          $(".status2").html("<font color=red>Số CMND phải đủ <b>4</b> 9 số. Vui lòng nhập lại</font>");  
+          $(".status2").html("<font color=red>Số CMND phải đủ <b>9</b> số. Vui lòng nhập lại</font>");  
           }  
             
       });  

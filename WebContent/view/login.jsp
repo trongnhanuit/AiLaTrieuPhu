@@ -1,4 +1,4 @@
-@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.net.URLDecoder"%>
 <!DOCTYPE html>
@@ -13,6 +13,7 @@
 <script>
 $(function() {
   $( "#tabs" ).tabs();
+  $("#audience").load("sub_login.jsp"); 
 });
 </script>
 <%! String error;%>
@@ -84,7 +85,7 @@ if (cookies!=null)
   </div>
 </div>
 </div>
-<a href="#" class="btn">Tôi là khán giả!</a>
+<div id="audience"></div>
 </div>
 </body>
 </html>
