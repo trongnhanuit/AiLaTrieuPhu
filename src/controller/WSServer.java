@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Random;
 
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
@@ -108,7 +109,7 @@ public class WSServer {
 					ssr.session.getBasicRemote().sendText("RESULT help04: "+msg.replace("CHOISE LIST help04: ", "")+";"+resultlist);
 			}
 			
-			// HELP04
+			// HELP03
 			// Mainplayer request -> xài ké hàm với help04
 			// audience + applicants response
 			if (msg.indexOf("RESPONSE help03: ")==0)
@@ -121,6 +122,30 @@ public class WSServer {
 				    case "c": ansC++; break;
 				    case "d": ansD++; break;
 				}
+			}
+			
+			// HELP01
+			if (msg.indexOf("REQUEST help01")==0)
+			{
+				String ans = "a", c ="",wrong="";
+				Random rd = new Random();
+				while(wrong.length()<3)
+				{
+					switch(rd.nextInt(4)+1)
+					{
+					case 1: c="a";break;
+					case 2: c="b";break;
+					case 3: c="c";break;
+					case 4: c="d";break;
+					}
+					if(!c.equals(ans)&&!wrong.contains(c))
+					{
+						wrong+=c;
+					}
+					if(wrong.length()==1) wrong+=";";
+				}
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("RESPONSE help01: "+wrong);	
 			}
 		}
 	}

@@ -9,15 +9,15 @@ ws.onmessage = function(message)
 {
 	$("#status").html($("#status").html()+message.data);
 	if (message.data.indexOf("AUDIENCE IN: ")==0)
-		{
-			$("#user-"+message.data.replace("AUDIENCE IN: ","")).attr('class', 'userOn');
-			$("#user-"+message.data.replace("AUDIENCE IN: ","")).html($("#user-"+message.data.replace("AUDIENCE IN: ","")).html()+'<div class="umale" id="sex-'+message.data.replace("AUDIENCE IN: ","")+'"></div>');
-		}
+	{
+		$("#user-"+message.data.replace("AUDIENCE IN: ","")).attr('class', 'userOn');
+		$("#user-"+message.data.replace("AUDIENCE IN: ","")).html($("#user-"+message.data.replace("AUDIENCE IN: ","")).html()+'<div class="umale" id="sex-'+message.data.replace("AUDIENCE IN: ","")+'"></div>');
+	}
 	if (message.data.indexOf("AUDIENCE OUT: ")==0)
-		{
-			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).attr('class', 'userOff');
-			$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
-		}	
+	{
+		$("#user-"+message.data.replace("AUDIENCE OUT: ","")).attr('class', 'userOff');
+		$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
+	}	
 	
 	// HELP04
 	if (message.data.indexOf("REQUEST help04")==0 || message.data.indexOf("REQUEST help03")==0)
@@ -39,6 +39,14 @@ ws.onmessage = function(message)
 	{
 		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2r1").html());
 		$( "#showChart" ).trigger("click");
+	}
+	
+	//HELP01
+	if (message.data.indexOf("RESPONSE help01: ")==0)
+	{
+		var arr=message.data.replace('RESPONSE help01: ','').split(';');
+		$("#answer"+arr[0]).css('background','black');
+		$("#answer"+arr[1]).css('background','black');
 	}
 };
 ws.onclose = function(){
