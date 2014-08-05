@@ -1,7 +1,9 @@
 var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 //Connected to socket server, get @param message.
 ws.onopen = function(){
-	ws.send("01");
+	var pos=$.urlParam('pos');
+	$("#pos").val(pos);
+	ws.send(pos);
 	$("#status").html("Send request to Server...<br/>");
 };
 	// Receive data from server
@@ -107,11 +109,6 @@ function timer()
 	}
 }
 
-$.urlParam = function(name){
-    var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
-    return results[1] || 0;
-};
-
 //Fancybox for help03
 $(document).ready(function() {
     $("#showChart").fancybox({
@@ -125,6 +122,11 @@ $(document).ready(function() {
             openEffect	: 'none',
             closeEffect	: 'none'
     });
+    
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+        return results[1] || 0;
+    };
 });
 
 $(function(){

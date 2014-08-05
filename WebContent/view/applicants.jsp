@@ -17,6 +17,7 @@
 <body>
 	<input type="hidden" id="answerforhelp03" value="NO">
 	<input type="hidden" id="answerforhelp04" value="NO">
+	<input type="hidden" id="pos">
 	<div class="c1">
 		<div class="c11">
 			<c:forEach var="i" begin="31" end="50">
