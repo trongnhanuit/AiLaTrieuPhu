@@ -38,7 +38,10 @@ public class LoginController extends HttpServlet {
 			try {
 				if(Function.validatePassword(request.getParameter("password"), emp.getPassword()))
 				 {
-					response.sendRedirect("http://google.com");
+					if (request.getParameter("usernamel").equals("admin"))
+						response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/mc.jsp");
+					else
+						response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/applicants.jsp");
 					 break;
 				 }
 				else 
