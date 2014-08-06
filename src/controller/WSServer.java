@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Random;
 
@@ -20,12 +21,15 @@ import model.*;
 @javax.websocket.server.ServerEndpoint(value="/servertest")
 public class WSServer {
 	private static Set<SessionRecord> sessionmap = Collections.synchronizedSet(new HashSet<SessionRecord>());
-	private static Set<ResultRecord> resultmap;
+	public static Set<ResultRecord> resultmap;
 	// Varible for timer
 	static int interval;
 	Timer timer;
 	// Thong ke dap an
 	public static int ansA, ansB, ansC, ansD;
+	
+	// Answer key for quick question
+	static String ansKey;
 	
 	@OnOpen
 	public void onOpen(Session session) throws IOException
@@ -55,6 +59,17 @@ public class WSServer {
 			if (!msg.equals("-1") && !msg.equals("00"))// neither mc nor mainplayer
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("AUDIENCE IN: "+msg);
+			
+			// Neu la applicants dang nhap thi kiem tra xem 10 vi tri applicants da day chua
+			if (Integer.parseInt(msg)>0 && Integer.parseInt(msg)<11)
+			{
+				int i;
+				for (i=1; i<11; i++)
+					if (getSessionRecord("0"+String.valueOf(i))==null)
+						break;
+				if (i==10 && getSessionRecord(String.valueOf(i))!=null)
+					getSessionRecord("-1").session.getBasicRemote().sendText("CREATE QUICK ROUND");
+			}
 		}
 		else // Else that is normal message
 		{
@@ -147,6 +162,36 @@ public class WSServer {
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("RESPONSE help01: "+wrong);	
 			}
+			
+			// TẠO VÒNG TRẢ LỜI NHANH
+			if (msg.indexOf("CREATE QUICK ROUND")==0)
+			{
+				// Tạo map lưu đáp án và tính giờ gửi thống kê
+				resultmap = Collections.synchronizedSet(new HashSet<ResultRecord>());
+				interval=22;
+				timer=new Timer();
+				timer.schedule(new TimerTask() 
+				{
+					public void run() {try {setIntervalquickround();} catch (IOException e) {e.printStackTrace();}}
+				}, 1000,1000);
+				
+				// Get va gui cau hoi
+				List<Quickquestion> ql= Function.select(Quickquestion.class,"");
+				Random rd = new Random();
+				Quickquestion qqt=ql.get(rd.nextInt(ql.size()));
+				ansKey=qqt.getAnsKey();
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("QUICK ROUND QUESTION: "+qqt.getContent()+"@@@"+qqt.getAnsA()+"@@@"+qqt.getAnsB()+"@@@"+qqt.getAnsC()+"@@@"+qqt.getAnsD());
+				
+			}
+			// Nhận đáp án và thống kê
+			if (msg.indexOf("QUICK ROUND ANSWER: ")==0)
+			{
+				String[] arr=msg.replace("QUICK ROUND ANSWER: ","").split(";");
+				// Chi thong ke nhung vi tri tra loi dung
+				if (arr[0].toUpperCase().equals(ansKey))
+					resultmap.add(new ResultRecord(getSessionRecord(session).pos, arr[0],Integer.parseInt(arr[1])));
+			}
 		}
 	}
 	
@@ -179,4 +224,36 @@ public class WSServer {
 	    }
 	    interval--;
 	}
+	
+	private final void setIntervalquickround() throws IOException 
+	{
+	    if (interval == 0)
+	    {
+	    	// Get Data
+	    	ResultTable rst=new ResultTable();
+	    	rst.getData();
+	    	
+	    	// Tạo chuỗi ds các vị trí trả lời đúng.
+	    	String pos="";
+	    	int maxtimeleft=0;
+	    	for (ResultRecord rsr:rst.resultmap)
+	    		if (rsr.timeleft>maxtimeleft)
+	    		{
+	    			pos=rsr.pos;
+	    			maxtimeleft=rsr.timeleft;
+	    		}
+	    	// Tao chuỗi, không thêm vị trí max vào nữa vì nó đã ở ngay đầu
+	    	for (ResultRecord rsr:rst.resultmap)
+	    		if (rsr.timeleft!=maxtimeleft)
+	    			pos=pos+";"+rsr.pos;
+	    	
+	    	for (SessionRecord ssr:sessionmap)
+				ssr.session.getBasicRemote().sendText("RESULT ROUND QUESTION: "+pos);
+	    	// Xoa session nguoi dc chon
+	    	sessionmap.remove(getSessionRecord(pos.split(";")[0]));
+	        timer.cancel();
+	    }
+	    interval--;
+	}
+	
 }

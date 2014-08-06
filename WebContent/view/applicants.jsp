@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
 </head>
 <body>
+	<input type="hidden" id="answerforquickround" value="NO">
 	<input type="hidden" id="answerforhelp03" value="NO">
 	<input type="hidden" id="answerforhelp04" value="NO">
 	<input type="hidden" id="pos">

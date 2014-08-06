@@ -2,21 +2,14 @@ package model;
 import org.hibernate.*;
 import org.hibernate.cfg.*;
 
-import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.*;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 public class Function {
@@ -29,7 +22,9 @@ public class Function {
 		ss=sessionfactory.openSession();
 		transaction= ss.beginTransaction();
 		
-		String hql="from "+ tableClass.getName().replace("model.", "") +" where "+whereString;
+		String hql="from "+ tableClass.getName().replace("model.", "");
+		if (!whereString.equals(""))
+			hql=hql+" where "+whereString;
 		Query query = ss.createQuery(hql);
 		List<Object> Olist=query.list();
 		ss.close();
@@ -51,7 +46,9 @@ public class Function {
 		ss=sessionfactory.openSession();
 		transaction= ss.beginTransaction();
 		
-		String hql="delete from "+tableClass.getName().replace("model.", "")+" where "+whereString;
+		String hql="delete from "+tableClass.getName().replace("model.", "");
+		if (!whereString.equals(""))
+			hql=hql+" where "+whereString;
 		Query q=ss.createQuery(hql);
 		q.executeUpdate();
 		transaction.commit();
@@ -63,7 +60,9 @@ public class Function {
 		ss=sessionfactory.openSession();
 		transaction= ss.beginTransaction();
 		
-		String hql="update "+tableClass.getName().replace("model.", "")+" set "+ setString+" where "+whereString;
+		String hql="update "+tableClass.getName().replace("model.", "")+" set "+ setString;
+		if (!whereString.equals(""))
+			hql=hql+" where "+whereString;
 		Query q=ss.createQuery(hql);
 		q.executeUpdate();
 		transaction.commit();
@@ -133,7 +132,12 @@ public class Function {
 	{
 		// How to uses: please enter "true" for whereString if you have no whereString.
 		
-		// SELECT
+		List<Quickquestion> ql= Function.select(Quickquestion.class,"");
+		Random rd = new Random();
+		Quickquestion qqt=ql.get(rd.nextInt(ql.size()));
+		String ansKey=qqt.getAnsKey();
+		
+		/*// SELECT
 		List<Question> ql= select(Question.class,"questionID>75");
 		for(Question emp : ql)
 			System.out.println("List of Question:"+emp.getContent());
@@ -146,6 +150,6 @@ public class Function {
 		update(Question.class,"content='updated2'","questionID=102");
 		
 		//DELETE
-		delete(Question.class,"questionID=103");	
+		delete(Question.class,"questionID=103");	*/
 	}
 }
