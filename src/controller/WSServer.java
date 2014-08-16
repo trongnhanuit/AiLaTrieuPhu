@@ -257,13 +257,17 @@ public class WSServer {
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
 			if(msg.indexOf("ReloadPage")==0)
 			{
-				int i = roundID;
+				int i = 6;
 				if(i!=0)
 				{
-					List<Round> rouds = Function.select(Round.class,"roundID="+i);
-					Round roud = rouds.get(0);
-					int help = roud.getHelp();
-					session.getBasicRemote().sendText("Reload: "+String.valueOf(help));
+					List<Round> rounds = Function.select(Round.class,"roundID="+i);
+					Round round = rounds.get(0);
+					int help = round.getHelp();
+					String listQ = round.getQuestionlist();
+					String[] a = listQ.split("@");
+					List<Question> temp = Function.select(Question.class, "questionID="+a[a.length-1]);
+					Question question = temp.get(0);
+					session.getBasicRemote().sendText("Reload: "+String.valueOf(help)+","+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD());
 					//session.getBasicRemote().sendText("Reload: "+String.valueOf(1));
 				}
 				

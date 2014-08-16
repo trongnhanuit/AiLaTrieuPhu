@@ -90,7 +90,20 @@ ws.onmessage = function(message)
 	}
 	if (message.data.indexOf("Reload: ")==0)
 	{
-		var decNumber = Number(message.data.replace("Reload: ",""));
+		var response = message.data.replace("Reload: ","").split(",");
+		var question = response[1].split("@@@");
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		alert(question[0]);
+		$(".c2c1").html(question[0]);
+		$("#answera").html(question[1]);
+		$("#answerb").html(question[2]);
+		$("#answerc").html(question[3]);
+		$("#answerd").html(question[4]);
+		$('#ansKey').val("");
+		var decNumber = Number(response[0]);
 		var binaryNumber = decNumber.toString(2).toUpperCase();
 		var stringValue = binaryNumber.toString();
 		
