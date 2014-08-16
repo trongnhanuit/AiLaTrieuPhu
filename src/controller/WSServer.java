@@ -84,6 +84,7 @@ public class WSServer {
 			// Bao nhan yeu cau dung chung cho 4 help
 			if (msg.indexOf("REQUEST help0")==0)
 			{
+				Function.update(Round.class, "help=help-"+String.valueOf((int)Math.pow(2,Integer.parseInt(msg.replace("REQUEST help0",""))-1)), "roundID="+roundID);
 				for (SessionRecord ssr:sessionmap)
 					if (!ssr.pos.equals("00"))
 						ssr.session.getBasicRemote().sendText(msg);
