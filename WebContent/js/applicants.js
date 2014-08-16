@@ -129,9 +129,11 @@ ws.onmessage = function(message)
 		$("#answerc").css('background','#804000');
 		$("#answerd").css('background','#804000');
 		
-		var arr=+message.data.replace("QUESTION RESULT: ","").split(";");
+		var arr=message.data.replace("QUESTION RESULT: ","").split(";");
 		$("#answer"+arr[0]).css('background','red');
 		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
+		if(arr[0]!=arr[1].toLowerCase())
+			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
 };
 ws.onclose = function(){
