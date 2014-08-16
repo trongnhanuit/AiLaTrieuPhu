@@ -6,6 +6,7 @@ var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 ws.onopen = function(){
 	ws.send("00");
 	$("#status").html("Send request to Server...<br/>");
+	ws.send("ReloadPage");
 };
 	// Receive data from server
 ws.onmessage = function(message)
@@ -87,6 +88,7 @@ ws.onmessage = function(message)
 		if(arr[0]!=arr[1].toLowerCase())
 			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
+<<<<<<< HEAD
 	
 	
 	//Hiện Quảng cáo
@@ -103,6 +105,44 @@ ws.onmessage = function(message)
 			$(".container").css('display','none');
 		    });
 	}
+=======
+	if (message.data.indexOf("Reload: ")==0)
+	{
+		var response = message.data.replace("Reload: ","").split(",");
+		var question = response[1].split("@@@");
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		alert(question[0]);
+		$(".c2c1").html(question[0]);
+		$("#answera").html(question[1]);
+		$("#answerb").html(question[2]);
+		$("#answerc").html(question[3]);
+		$("#answerd").html(question[4]);
+		$('#ansKey').val("");
+		var decNumber = Number(response[0]);
+		var binaryNumber = decNumber.toString(2).toUpperCase();
+		var stringValue = binaryNumber.toString();
+		
+		if(stringValue.length<2)
+			stringValue = "000"+stringValue;
+		else if(stringValue.length<3)
+			stringValue = "00"+stringValue;
+		else if(stringValue.length<4)
+			stringValue = "0"+stringValue;
+		if(stringValue[0]=="0")
+			$('#help01').attr('id','help01used');
+		if(stringValue[1]=="0")
+			$('#help02').attr('id','help02used');
+		if(stringValue[2]=="0")
+			$('#help03').attr('id','help03used');
+		if(stringValue[3]=="0")
+			$('#help04').attr('id','help04used');
+		
+	}
+	
+>>>>>>> origin/master
 		
 };
 ws.onclose = function(){

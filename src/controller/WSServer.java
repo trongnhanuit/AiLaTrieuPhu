@@ -84,6 +84,7 @@ public class WSServer {
 			// Bao nhan yeu cau dung chung cho 4 help
 			if (msg.indexOf("REQUEST help0")==0)
 			{
+				Function.update(Round.class, "help=help-"+String.valueOf((int)Math.pow(2,Integer.parseInt(msg.replace("REQUEST help0",""))-1)), "roundID="+roundID);
 				for (SessionRecord ssr:sessionmap)
 					if (!ssr.pos.equals("00"))
 						ssr.session.getBasicRemote().sendText(msg);
@@ -261,6 +262,25 @@ public class WSServer {
 			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
+			if(msg.indexOf("ReloadPage")==0)
+			{
+				int i = 6;
+				if(i!=0)
+				{
+					List<Round> rounds = Function.select(Round.class,"roundID="+i);
+					Round round = rounds.get(0);
+					int help = round.getHelp();
+					String listQ = round.getQuestionlist();
+					String[] a = listQ.split("@");
+					List<Question> temp = Function.select(Question.class, "questionID="+a[a.length-1]);
+					Question question = temp.get(0);
+					session.getBasicRemote().sendText("Reload: "+String.valueOf(help)+","+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD());
+					//session.getBasicRemote().sendText("Reload: "+String.valueOf(1));
+				}
+				
+				
+			}
+			
 		}
 	}
 	// Kiem tra xem id cua cau hoi co ton tai trong ds cau hoi da qua khong
