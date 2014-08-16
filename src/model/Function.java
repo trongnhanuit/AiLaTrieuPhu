@@ -68,6 +68,20 @@ public class Function {
 		transaction.commit();
 		ss.close();
 	}
+
+	// get Player from username
+	public static Player selectPlayer(String username)
+	{
+		List <Player> players=select(Player.class,"username='"+username+"'");
+		return players.get(0);
+	}
+	// Get RoundID from username
+	public static int getRoundID(String username)
+	{
+		int playerID=selectPlayer(username).getPlayerId();
+		List <Round> rounds=select(Round.class,"mainplayer="+playerID);
+		return rounds.get(0).getRoundId();
+	}
 // Các hàm xử lí Password
 	public static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
