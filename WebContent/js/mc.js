@@ -131,6 +131,21 @@ ws.onmessage = function(message)
 		else
 			$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
 	}
+	
+	//Hiện Quảng cáo
+	if (message.data.indexOf("RESPONSE ADS: ")==0)
+	{
+		var res =message.data.replace("RESPONSE ADS: ","");
+		$(".container").css('display','block');
+		$(".container").css('background','rgba(0,0,0,0.9)');
+		$(".container").css('padding','1% 25% 12%');
+		$(".container").css('width','100%');
+		$(".container").html("<video id =\"ads\" autoplay width=\"900\" height=\"600\"> <source src=\"../media/promo0"+res+".mp4\" type=\"video/mp4\"></video>");
+		$('#ads').bind("ended", function(){ 
+			$(".container").html(""); 
+			$(".container").css('display','none');
+		    });
+	}
 		
 };
 ws.onclose = function(){
@@ -215,4 +230,13 @@ $(document).on("click", "#nextquestion",function()
 {
 	$(".c2r1").empty();
     ws.send("REQUEST NEXT QUESTION");
+});
+
+//Hiện quảng cáo
+$(document).on("click", "#ads",function() 
+{
+	if($('#nextquestion').length)
+		ws.send("REQUEST ADS");
+	else
+		alert("Không thể quảng cáo lúc này!");
 });

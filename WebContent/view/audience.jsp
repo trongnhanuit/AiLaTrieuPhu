@@ -18,6 +18,8 @@
 	<input type="hidden" id="answerforhelp03" value="NO">
 	<input type="hidden" id="answerforhelp04" value="NO">
 	<input type="hidden" id="pos">
+	<div class="container"></div>
+<div class="wrapper">
 	<div class="c1">
 		<div class="c11">
 			<c:forEach var="i" begin="31" end="50">
@@ -89,6 +91,7 @@
 			<div class="c2r1"></div>
 			<div class="c2r2"></div>
 		</div> 
+	</div>
 	</div>
 </body>
 </html>

@@ -187,6 +187,13 @@ public class WSServer {
 					ssr.session.getBasicRemote().sendText("RESPONSE help02: "+res);	
 			}
 			
+			// QUẢNG CÁO
+			if (msg.indexOf("REQUEST ADS")==0)
+			{
+				Random rd = new Random();
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("RESPONSE ADS: "+rd.nextInt(3));	
+			}
 			// TẠO VÒNG TRẢ LỜI NHANH
 			if (msg.indexOf("CREATE QUICK ROUND")==0)
 			{

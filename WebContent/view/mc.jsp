@@ -15,7 +15,9 @@
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
 </head>
 <body>
-	<div class="c1">
+<div class="container"></div>
+<div class="wrapper">
+<div class="c1">
 		<div class="c11">
 			<c:forEach var="i" begin="31" end="50">
 				<c:if test='<%=WSServer.getSessionRecord(String.valueOf(pageContext.getAttribute("i")))==null%>'>
@@ -83,9 +85,12 @@
 			</div>
 		</div> 
 		<div class="c2r">
-			<div class="c2r1"></div>
+			<div class="c2r1">
+				<div class="btn" id="ads">Quảng cáo</div>
+			</div>
 			<div class="c2r2"></div>
 		</div> 
+	</div>
 	</div>
 </body>
 </html>

@@ -87,6 +87,22 @@ ws.onmessage = function(message)
 		if(arr[0]!=arr[1].toLowerCase())
 			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
+	
+	
+	//Hiện Quảng cáo
+	if (message.data.indexOf("RESPONSE ADS: ")==0)
+	{
+		var res =message.data.replace("RESPONSE ADS: ","");
+		$(".container").css('display','block');
+		$(".container").css('background','rgba(0,0,0,0.9)');
+		$(".container").css('padding','1% 25% 12%');
+		$(".container").css('width','100%');
+		$(".container").html("<video id =\"ads\" autoplay width=\"900\" height=\"600\"> <source src=\"../media/promo0"+res+".mp4\" type=\"video/mp4\"></video>");
+		$('#ads').bind("ended", function(){ 
+			$(".container").html(""); 
+			$(".container").css('display','none');
+		    });
+	}
 		
 };
 ws.onclose = function(){
