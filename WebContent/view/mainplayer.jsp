@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
 </head>
 <body>
+	<input type="hidden" id="ansKey" value="NO">
 	<input type="hidden" id="choiselist" value="NO">
 	<div class="c1">
 		<div class="c11">

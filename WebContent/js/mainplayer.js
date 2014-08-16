@@ -66,6 +66,10 @@ ws.onmessage = function(message)
 	// Nhan cau hoi moi
 	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
 	{
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
 		$("#answera").html(arr[1]);
@@ -79,8 +83,10 @@ ws.onmessage = function(message)
 	// Nhan dap an
 	if (message.data.indexOf("QUESTION RESULT: ")==0)
 	{
-		var arr=+message.data.replace("QUESTION RESULT: ","").split(";");
+		var arr=message.data.replace("QUESTION RESULT: ","").split(";");
 		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
+		if(arr[0]!=arr[1].toLowerCase())
+			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
 	if (message.data.indexOf("Reload: ")==0)
 	{
