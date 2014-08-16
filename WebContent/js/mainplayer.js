@@ -1,3 +1,6 @@
+// Bien thoi gian tra loi cau hoi
+var count, timerinterval;
+
 var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 //Connected to socket server, get @param message.
 ws.onopen = function(){
@@ -50,6 +53,35 @@ ws.onmessage = function(message)
 		$("#answer"+arr[0]).css('background','black');
 		$("#answer"+arr[1]).css('background','black');
 	}
+	
+	//HELP02
+	if (message.data.indexOf("RESPONSE help02: ")==0)
+	{
+		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>');
+		$( "#showChart" ).trigger("click");
+	}
+	
+	//CAU HOI MOI
+	// Nhan cau hoi moi
+	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
+	{
+		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
+		$(".c2c1").html(arr[0]);
+		$("#answera").html(arr[1]);
+		$("#answerb").html(arr[2]);
+		$("#answerc").html(arr[3]);
+		$("#answerd").html(arr[4]);
+		$('#ansKey').val("");
+		count=10;
+		timerinterval=setInterval(questionTimer,1000); 
+	}
+	// Nhan dap an
+	if (message.data.indexOf("QUESTION RESULT: ")==0)
+	{
+		var arr=+message.data.replace("QUESTION RESULT: ","").split(";");
+		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
+	}
+		
 };
 ws.onclose = function(){
 	alert("Bạn đã mất kết nối. Vui lòng kết nối lại bạn nhé!");
@@ -60,6 +92,42 @@ $.urlParam = function(name){
     var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
 };
+
+function questionTimer()
+{
+	// Hien thi thoi gian
+	$(".c2c4").html("Thời gian còn lại: "+count);
+	// Neu la vong cuoi thi kt de dung lai
+	if (count==0)
+	{
+		clearInterval(timerinterval);
+		ws.send("FINAL ANSWER QUESTION: "+$('#ansKey').val());
+		$('#ansKey').val("NO");
+	}
+		
+	count--;
+}
+
+// Answer click
+$(function(){
+    $(".answer").click(function(){
+    	// Only accecpt answer when be requested (ansKey!="NO")
+    	if ($("#ansKey").val()!="NO")
+		{
+    		// restore to default background color before set new color for user's choise
+    		$("#answera").css('background','#804000');
+    		$("#answerb").css('background','#804000');
+    		$("#answerc").css('background','#804000');
+    		$("#answerd").css('background','#804000');
+    		
+    		// set new color for user's choise
+    		$(this).css('background','red');
+    		
+    		$("#ansKey").val($( this ).attr('id').replace("answer",""));
+    		ws.send("TEMP ANSWER QUESTION: "+$("#ansKey").val());
+		}
+    });
+    });
 
 // Help click
 $(function(){

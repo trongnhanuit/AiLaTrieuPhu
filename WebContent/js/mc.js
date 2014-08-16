@@ -22,9 +22,11 @@ ws.onmessage = function(message)
 		$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
 	}	
 	
-	// HELP04
-	if (message.data.indexOf("REQUEST help04")==0 || message.data.indexOf("REQUEST help03")==0)
+	//HELP
+	// Dung chung cho 4 help de danh dau da su dung
+	if (message.data.indexOf("REQUEST help0")==0)
 		$("#"+message.data.replace("REQUEST ","")).attr("id",message.data.replace("REQUEST ","")+"used");
+	// HELP04
 	if (message.data.indexOf("RESPONSE help04: ")==0)
 		$("#user-"+message.data.replace("RESPONSE help04: ","")).attr('class', 'userHelp');	
 	if (message.data.indexOf("RESULT help04: ")==0)	
@@ -52,6 +54,13 @@ ws.onmessage = function(message)
 		$("#answer"+arr[1]).css('background','black');
 	}
 	
+	//HELP02
+	if (message.data.indexOf("RESPONSE help02: ")==0)
+	{
+		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>');
+		$( "#showChart" ).trigger("click");
+	}
+	
 	// VONG TRA LOI NHANH
 	// Server bao du dieu kien tao vong tra loi nhanh
 	if (message.data.indexOf("CREATE QUICK ROUND")==0)
@@ -76,6 +85,43 @@ ws.onmessage = function(message)
 		stoppos=arr[0];
 		count=5*10;
 		timerinterval=setInterval(runAroundTimer,1000/f); 
+	}
+	
+	//CAU HOI MOI
+	// Nhan cau hoi moi
+	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
+	{
+		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
+		$(".c2c1").html(arr[0]);
+		$("#answera").html(arr[1]);
+		$("#answerb").html(arr[2]);
+		$("#answerc").html(arr[3]);
+		$("#answerd").html(arr[4]);
+		count=11;
+		timerinterval=setInterval(questionTimer,1000); 
+	}
+	// Nhận Temp answer tu nguoi choi chinh
+	if (message.data.indexOf("TEMP ANSWER QUESTION: ")==0)
+	{
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		
+		// set new color for user's choise
+		$("#answer"+message.data.replace("TEMP ANSWER QUESTION: ","")).css('background','red');
+	}
+	// Nhan dap an
+	if (message.data.indexOf("QUESTION RESULT: ")==0)
+	{
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		
+		var arr=+message.data.replace("QUESTION RESULT: ","").split(";");
+		$("#answer"+arr[0]).css('background','red');
+		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
 	}
 		
 };
@@ -107,7 +153,22 @@ function runAroundTimer()
 	
 	// Neu la vong cuoi thi kt de dung lai
 	if (count<10 && stoppos==pos)
+	{
 		clearInterval(timerinterval);
+		$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+	}
+		
+	count--;
+}
+
+function questionTimer()
+{
+	// Hien thi thoi gian
+	$(".c2c4").html("Thời gian còn lại: "+count);
+	// Neu la vong cuoi thi kt de dung lai
+	if (count==0)
+		clearInterval(timerinterval);
+		
 	count--;
 }
 
@@ -139,4 +200,11 @@ $(document).on("click", "#createquickround",function()
 {
 	$(".c2r1").empty();
     ws.send("CREATE QUICK ROUND");
+});
+//Qua cau hoi moi
+//Tạo vòng trả lời nhanh
+$(document).on("click", "#nextquestion",function() 
+{
+	$(".c2r1").empty();
+    ws.send("REQUEST NEXT QUESTION");
 });

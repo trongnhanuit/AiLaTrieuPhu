@@ -24,10 +24,13 @@ ws.onmessage = function(message)
 		$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
 	}	
 	
+	//HELP
+	// Dung chung cho 4 help de danh dau da su dung
+	if (message.data.indexOf("REQUEST help0")==0)
+		$("#"+message.data.replace("REQUEST ","")).attr("id",message.data.replace("REQUEST ","")+"used");
 	// HELP04
 	if (message.data.indexOf("REQUEST help04")==0|| message.data.indexOf("REQUEST help03")==0)
 		{
-			$("#"+message.data.replace("REQUEST ","")).attr("id",message.data.replace("REQUEST ","")+"used");
 			$("#answerfor"+message.data.replace("REQUEST ","")).val("YES");
 			if (message.data.indexOf("REQUEST help04")==0)
 				$(".c2c4").html("Hiện tại người chơi chính đang sử dụng quyền trợ giúp \"Tư vấn tại chỗ\". Hãy trợ giúp ngay bằng cách chọn đáp án mà bạn biết là đúng. Lưu ý: không bắt buộc chọn đáp án nếu như bạn không chắn chắc với đáp án của mình bạn nhé!");
@@ -61,6 +64,13 @@ ws.onmessage = function(message)
 		$("#answer"+arr[1]).css('background','black');
 	}
 	
+	//HELP02
+	if (message.data.indexOf("RESPONSE help02: ")==0)
+	{
+		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>');
+		$( "#showChart" ).trigger("click");
+	}
+	
 	// VONG TRA LOI NHANH
 	//Server gui cau hoi
 	if (message.data.indexOf("QUICK ROUND QUESTION: ")==0)
@@ -82,6 +92,41 @@ ws.onmessage = function(message)
 		stoppos=arr[0];
 		count=5*10;
 		timerinterval=setInterval(runAroundTimer,1000/f); 
+	}
+	
+	//CAU HOI MOI
+	// Nhan cau hoi moi
+	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
+	{
+		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
+		$(".c2c1").html(arr[0]);
+		$("#answera").html(arr[1]);
+		$("#answerb").html(arr[2]);
+		$("#answerc").html(arr[3]);
+		$("#answerd").html(arr[4]);
+	}
+	// Nhận Temp answer tu nguoi choi chinh
+	if (message.data.indexOf("TEMP ANSWER QUESTION: ")==0)
+	{
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		
+		// set new color for user's choise
+		$("#answer"+message.data.replace("TEMP ANSWER QUESTION: ","")).css('background','red');
+	}
+	// Nhan dap an
+	if (message.data.indexOf("QUESTION RESULT: ")==0)
+	{
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		
+		var arr=+message.data.replace("QUESTION RESULT: ","").split(";");
+		$("#answer"+arr[0]).css('background','red');
+		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
 	}
 };
 ws.onclose = function(){

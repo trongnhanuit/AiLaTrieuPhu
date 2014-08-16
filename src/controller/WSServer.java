@@ -31,6 +31,9 @@ public class WSServer {
 	// Answer key for quick question
 	static String ansKey;
 	
+	// roundID
+	static int roundID;
+	
 	@OnOpen
 	public void onOpen(Session session) throws IOException
 	{
@@ -77,14 +80,20 @@ public class WSServer {
 			for (SessionRecord ssr:sessionmap)
 				ssr.session.getBasicRemote().sendText(session.getId()+" sent : "+msg+"<br/>");
 			
+			// HELP
+			// Bao nhan yeu cau dung chung cho 4 help
+			if (msg.indexOf("REQUEST help0")==0)
+			{
+				for (SessionRecord ssr:sessionmap)
+					if (!ssr.pos.equals("00"))
+						ssr.session.getBasicRemote().sendText(msg);
+			}
+			
 			// HELP04
 			// Mainplayer request
 			if (msg.indexOf("REQUEST help04")==0 || msg.indexOf("REQUEST help03")==0)
 			{
 				resultmap = Collections.synchronizedSet(new HashSet<ResultRecord>());
-				for (SessionRecord ssr:sessionmap)
-					if (!ssr.pos.equals("00"))
-						ssr.session.getBasicRemote().sendText(msg);
 				
 				// Nếu là help03 thì bắt đầu tính thời gian gửi kết quả
 				if (msg.indexOf("REQUEST help03")==0)
@@ -163,6 +172,21 @@ public class WSServer {
 					ssr.session.getBasicRemote().sendText("RESPONSE help01: "+wrong);	
 			}
 			
+			// HELP02
+			if (msg.indexOf("REQUEST help02")==0)
+			{
+				String ans = "a", res="";
+				Random rd = new Random();
+				if(rd.nextInt(2)==0)
+					res=ans;
+				else
+				{
+					res="xx";
+				}
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("RESPONSE help02: "+res);	
+			}
+			
 			// TẠO VÒNG TRẢ LỜI NHANH
 			if (msg.indexOf("CREATE QUICK ROUND")==0)
 			{
@@ -192,7 +216,53 @@ public class WSServer {
 				if (arr[0].toUpperCase().equals(ansKey))
 					resultmap.add(new ResultRecord(getSessionRecord(session).pos, arr[0],Integer.parseInt(arr[1])));
 			}
+			
+			//VÒNG CHƠI CHÍNH
+			//Nhận yêu cầu câu hỏi từ MC
+			if (msg.indexOf("REQUEST NEXT QUESTION")==0)
+			{
+				// Lay stt cua cau hoi vua qua
+				List <Round> rounds=Function.select(Round.class, "roundID="+roundID);
+				String[] questionlist=rounds.get(0).getQuestionlist().split(";");
+				List<Question> questions=Function.select(Question.class, "level="+questionlist.length/5);
+				
+				// Chon ngau nhien 1 cau hoi tu ds
+				int pos=0;
+				Random rd = new Random();
+				do 
+				{
+					pos=rd.nextInt(questions.size());
+				} while (!checkQuestionID(String.valueOf(questions.get(pos).getQuestionId()), questionlist));
+				
+				//Cap nhat them id cau hoi dc chon vao database
+				Question question=questions.get(pos);
+				if (questionlist.length>1)
+					Function.update(Round.class, "questionlist=questionlist+'@"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
+				else
+					Function.update(Round.class, "questionlist='"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
+				
+				ansKey=question.getAnsKey();
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("RESPONSE NEXT QUESTION: "+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD());
+			}
+			// Nhận Temp answer tu nguoi choi chinh
+			if (msg.indexOf("TEMP ANSWER QUESTION: ")==0)
+				for (SessionRecord ssr:sessionmap)
+					if (!ssr.pos.equals("00"))
+						ssr.session.getBasicRemote().sendText(msg);
+			// Nhận Final answer tu nguoi choi chinh
+			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
 		}
+	}
+	// Kiem tra xem id cua cau hoi co ton tai trong ds cau hoi da qua khong
+	boolean checkQuestionID(String questionID, String[] questionlist)
+	{
+		for (int i=0; i<questionlist.length; i++)
+			if (questionID.equals(questionlist[i]))
+				return false;
+		return true;
 	}
 	
 	public static SessionRecord getSessionRecord(Session ss)
@@ -242,6 +312,15 @@ public class WSServer {
 	    			pos=rsr.pos;
 	    			maxtimeleft=rsr.timeleft;
 	    		}
+	    	// Get user of mainplayer and create new round
+			for(PlayerPosRecord ppr:LoginController.playerposmap)
+				if (ppr.pos.equals(pos))
+				{
+					Round newRound=new Round(Function.selectPlayer(ppr.username), 15, "", 0);
+					Function.insert(newRound);
+					roundID=Function.getRoundID(ppr.username);
+					break;
+				}
 	    	// Tao chuỗi, không thêm vị trí max vào nữa vì nó đã ở ngay đầu
 	    	for (ResultRecord rsr:rst.resultmap)
 	    		if (rsr.timeleft!=maxtimeleft)
