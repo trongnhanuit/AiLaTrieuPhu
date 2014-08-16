@@ -6,6 +6,7 @@ var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 ws.onopen = function(){
 	ws.send("00");
 	$("#status").html("Send request to Server...<br/>");
+	ws.send("ReloadPage");
 };
 	// Receive data from server
 ws.onmessage = function(message)
@@ -81,6 +82,29 @@ ws.onmessage = function(message)
 		var arr=+message.data.replace("QUESTION RESULT: ","").split(";");
 		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
 	}
+	if (message.data.indexOf("Reload: ")==0)
+	{
+		var decNumber = Number(message.data.replace("Reload: ",""));
+		var binaryNumber = decNumber.toString(2).toUpperCase();
+		var stringValue = binaryNumber.toString();
+		
+		if(stringValue.length<2)
+			stringValue = "000"+stringValue;
+		else if(stringValue.length<3)
+			stringValue = "00"+stringValue;
+		else if(stringValue.length<4)
+			stringValue = "0"+stringValue;
+		if(stringValue[0]=="0")
+			$('#help01').attr('id','help01used');
+		if(stringValue[1]=="0")
+			$('#help02').attr('id','help02used');
+		if(stringValue[2]=="0")
+			$('#help03').attr('id','help03used');
+		if(stringValue[3]=="0")
+			$('#help04').attr('id','help04used');
+		
+	}
+	
 		
 };
 ws.onclose = function(){

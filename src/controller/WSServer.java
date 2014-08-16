@@ -254,6 +254,21 @@ public class WSServer {
 			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
+			if(msg.indexOf("ReloadPage")==0)
+			{
+				int i = roundID;
+				if(i!=0)
+				{
+					List<Round> rouds = Function.select(Round.class,"roundID="+i);
+					Round roud = rouds.get(0);
+					int help = roud.getHelp();
+					session.getBasicRemote().sendText("Reload: "+String.valueOf(help));
+					//session.getBasicRemote().sendText("Reload: "+String.valueOf(1));
+				}
+				
+				
+			}
+			
 		}
 	}
 	// Kiem tra xem id cua cau hoi co ton tai trong ds cau hoi da qua khong
