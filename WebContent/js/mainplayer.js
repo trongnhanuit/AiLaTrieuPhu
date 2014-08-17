@@ -61,6 +61,7 @@ ws.onmessage = function(message)
 		$( "#showChart" ).trigger("click");
 	}
 	
+	
 	//CAU HOI MOI
 	// Nhan cau hoi moi
 	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
@@ -137,7 +138,31 @@ ws.onmessage = function(message)
 			$('#help03').attr('id','help03used');
 		if(stringValue[3]=="0")
 			$('#help04').attr('id','help04used');
+		$(".c2c4").html("");
+		//Kiem tra onl vs off cua 
+		for ( var i = 1; i < 9; i ++ )
+			{
+				ws.send("CHECKONLINE: 0"+i);
+			}
+		for ( var i = 10; i < 51; i ++ )
+		{
+			ws.send("CHECKONLINE: "+i);
+		}
 		
+	}
+	if (message.data.indexOf("RESULTCHECKONLINE: ")==0)
+	{
+		var result = message.data.replace("RESULTCHECKONLINE: ","").split("@");
+		if(result[0]=="1")
+			{
+				
+				$("#user-"+result[1]).attr('class','userOn');
+				$("#user-"+result[1]).html('<div class="numUser">'+result[1]+'</div><div class="umale" id="sex-"'+result[1]+'"></div>');
+			}
+		else
+			{
+				
+			}
 	}
 	
 >>>>>>> origin/master

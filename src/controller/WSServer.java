@@ -286,6 +286,17 @@ public class WSServer {
 				
 				
 			}
+			if(msg.indexOf("CHECKONLINE: ")==0)
+			{
+				String pos = msg.replace("CHECKONLINE: ", "");
+				SessionRecord ssr = getSessionRecord(pos);
+				String result="";
+				if(ssr!=null)
+					result="1";
+				else
+					result="0";
+				session.getBasicRemote().sendText("RESULTCHECKONLINE: "+result+"@"+pos);
+			}
 			
 		}
 	}
