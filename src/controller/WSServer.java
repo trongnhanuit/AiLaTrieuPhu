@@ -264,8 +264,12 @@ public class WSServer {
 						ssr.session.getBasicRemote().sendText(msg);
 			// Nhận Final answer tu nguoi choi chinh
 			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
+			{
+				if (!msg.replace("FINAL ANSWER QUESTION: ","").equals(ansKey.toLowerCase()))
+					Function.update(Round.class, "status=1", "roundID="+roundID);
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
+			}
 			
 			// Load lai noi dung
 			if(msg.indexOf("ReloadPage")==0)
