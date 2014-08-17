@@ -41,29 +41,35 @@ public class LoginController extends HttpServlet {
 						// Nếu là MC
 						if (request.getParameter("usernamel").equals("admin"))
 							response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/mc.jsp");
-						else // Nếu là applicants
-						{
-							// Tìm chỗ trống vào ngồi
-							// Tim vtri trong.
-							int i;
-							for (i=1; i<11; i++)
-								if (WSServer.getSessionRecord("0"+String.valueOf(i))==null)
-									break;
-							// Neu i dừng trong khoảng từ 1-9 thì vào chỗ đó luôn
-							if (i<10)
+						else //  Neu la current mainplayer
+							if (request.getParameter("usernamel").equals(Function.getCurrentMainPlayer()))
 							{
-								response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/applicants.jsp?pos=0"+String.valueOf(i));
-								playerposmap.add(new PlayerPosRecord("0"+String.valueOf(i),request.getParameter("usernamel")));
+								WSServer.roundID=Function.getRoundID(request.getParameter("usernamel"));
+								response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/mainplayer.jsp");
 							}
-							else // Nếu bằng 10 phải kiểm tra xem có trống không
-								if (WSServer.getSessionRecord(String.valueOf(i))==null)
+							else //Nếu là applicants
+							{
+								// Tìm chỗ trống vào ngồi
+								// Tim vtri trong.
+								int i;
+								for (i=1; i<11; i++)
+									if (WSServer.getSessionRecord("0"+String.valueOf(i))==null)
+										break;
+								// Neu i dừng trong khoảng từ 1-9 thì vào chỗ đó luôn
+								if (i<10)
 								{
-									response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/applicants.jsp?pos="+String.valueOf(i));
-									playerposmap.add(new PlayerPosRecord(String.valueOf(i),request.getParameter("usernamel")));
+									response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/applicants.jsp?pos=0"+String.valueOf(i));
+									playerposmap.add(new PlayerPosRecord("0"+String.valueOf(i),request.getParameter("usernamel")));
 								}
-								else // Ngược lại hết chỗ
-									sendError(response,"Đã đủ 10 người chơi. Vui lòng quay trở lại trong đợt chơi kế tiếp.");
-						}
+								else // Nếu bằng 10 phải kiểm tra xem có trống không
+									if (WSServer.getSessionRecord(String.valueOf(i))==null)
+									{
+										response.sendRedirect("http://localhost:8080/AiLaTrieuPhu/view/applicants.jsp?pos="+String.valueOf(i));
+										playerposmap.add(new PlayerPosRecord(String.valueOf(i),request.getParameter("usernamel")));
+									}
+									else // Ngược lại hết chỗ
+										sendError(response,"Đã đủ 10 người chơi. Vui lòng quay trở lại trong đợt chơi kế tiếp.");
+							}
 						 break;
 					 }
 					else 

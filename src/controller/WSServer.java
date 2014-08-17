@@ -63,6 +63,10 @@ public class WSServer {
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("AUDIENCE IN: "+msg);
 			
+			// if that is mainplayer -> notice to MC
+			if (msg.equals("00"))
+				getSessionRecord("-1").session.getBasicRemote().sendText("MAINPLAYER SIGNED IN");
+				
 			// Neu la applicants dang nhap thi kiem tra xem 10 vi tri applicants da day chua
 			if (Integer.parseInt(msg)>0 && Integer.parseInt(msg)<11)
 			{
@@ -70,7 +74,7 @@ public class WSServer {
 				for (i=1; i<11; i++)
 					if (getSessionRecord("0"+String.valueOf(i))==null)
 						break;
-				if (i==10 && getSessionRecord(String.valueOf(i))!=null)
+				if (i==10 && getSessionRecord(String.valueOf(i))!=null && Function.getCurrentMainPlayer().equals(""))
 					getSessionRecord("-1").session.getBasicRemote().sendText("CREATE QUICK ROUND");
 			}
 		}
@@ -244,8 +248,8 @@ public class WSServer {
 				
 				//Cap nhat them id cau hoi dc chon vao database
 				Question question=questions.get(pos);
-				if (questionlist.length>1)
-					Function.update(Round.class, "questionlist=questionlist+'@"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
+				if (rounds.get(0).getQuestionlist().length()>0)
+					Function.update(Round.class, "questionlist=concat(questionlist,'@"+String.valueOf(question.getQuestionId())+"')", "roundID="+roundID);
 				else
 					Function.update(Round.class, "questionlist='"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
 				
@@ -262,9 +266,11 @@ public class WSServer {
 			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
+			
+			// Load lai noi dung
 			if(msg.indexOf("ReloadPage")==0)
 			{
-				int i = 6;
+				int i = roundID;
 				if(i!=0)
 				{
 					List<Round> rounds = Function.select(Round.class,"roundID="+i);

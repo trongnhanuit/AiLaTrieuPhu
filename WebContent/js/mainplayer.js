@@ -6,7 +6,6 @@ var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 ws.onopen = function(){
 	ws.send("00");
 	$("#status").html("Send request to Server...<br/>");
-	ws.send("ReloadPage");
 };
 	// Receive data from server
 ws.onmessage = function(message)
@@ -114,7 +113,6 @@ ws.onmessage = function(message)
 		$("#answerb").css('background','#804000');
 		$("#answerc").css('background','#804000');
 		$("#answerd").css('background','#804000');
-		alert(question[0]);
 		$(".c2c1").html(question[0]);
 		$("#answera").html(question[1]);
 		$("#answerb").html(question[2]);

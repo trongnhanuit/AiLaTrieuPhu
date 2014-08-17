@@ -68,6 +68,19 @@ public class Function {
 		transaction.commit();
 		ss.close();
 	}
+	
+	// get current mainplayer
+
+	public static String getCurrentMainPlayer()
+	{
+		List <Round> rounds=select(Round.class,"status=0");
+		if (rounds.isEmpty())
+			return "";
+		List <Player> players=select(Player.class,"playerID="+rounds.get(0).getPlayer().getPlayerId());
+		if (players.isEmpty())
+			return "";
+		return players.get(0).getUsername();
+	}
 
 	// get Player from username
 	public static Player selectPlayer(String username)
