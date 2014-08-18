@@ -86,6 +86,7 @@
 		</div> 
 		<div class="c2r">
 			<div class="c2r1">
+				<div class="c2l1title">TRỢ GIÚP</div>
 				<div class="btn" id="ads">Quảng cáo</div>
 			</div>
 			<div class="c2r2"></div>

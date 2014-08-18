@@ -196,11 +196,7 @@ public class WSServer {
 			if (msg.indexOf("REQUEST ADS")==0)
 			{
 				Random rd = new Random();
-<<<<<<< HEAD
 				int rand=rd.nextInt(3);
-=======
-				int rand = rd.nextInt(3);
->>>>>>> origin/master
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("RESPONSE ADS: "+rand);	
 			}
