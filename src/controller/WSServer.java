@@ -196,8 +196,9 @@ public class WSServer {
 			if (msg.indexOf("REQUEST ADS")==0)
 			{
 				Random rd = new Random();
+				int rand=rd.nextInt(3);
 				for (SessionRecord ssr:sessionmap)
-					ssr.session.getBasicRemote().sendText("RESPONSE ADS: "+rd.nextInt(3));	
+					ssr.session.getBasicRemote().sendText("RESPONSE ADS: "+rand);	
 			}
 			// TẠO VÒNG TRẢ LỜI NHANH
 			if (msg.indexOf("CREATE QUICK ROUND")==0)
