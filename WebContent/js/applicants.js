@@ -54,7 +54,7 @@ ws.onmessage = function(message)
 	//HELP03
 	if (message.data.indexOf("RESPONSE help03: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2r1").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
@@ -69,7 +69,7 @@ ws.onmessage = function(message)
 	//HELP02
 	if (message.data.indexOf("RESPONSE help02: ")==0)
 	{
-		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>');
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
