@@ -10,7 +10,6 @@ ws.onopen = function(){
 	$("#pos").val(pos);
 	ws.send(pos);
 	$("#status").html("Send request to Server...<br/>");
-	ws.send("ReloadPage");
 };
 	// Receive data from server
 ws.onmessage = function(message)
@@ -136,8 +135,7 @@ ws.onmessage = function(message)
 		if(arr[0]!=arr[1].toLowerCase())
 			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
-<<<<<<< HEAD
-	
+
 	
 	//Hiện Quảng cáo
 	if (message.data.indexOf("RESPONSE ADS: ")==0)
@@ -152,7 +150,7 @@ ws.onmessage = function(message)
 			$(".container").html(""); 
 			$(".container").css('display','none');
 		    });
-=======
+	}
 	if (message.data.indexOf("Reload: ")==0)
 	{
 		//var decNumber = Number(message.data.replace("Reload: ",""));
@@ -166,7 +164,6 @@ ws.onmessage = function(message)
 			stringValue = "00"+stringValue;
 		else if(stringValue.length<4)
 			stringValue = "0"+stringValue;
->>>>>>> origin/master
 	}
 };
 ws.onclose = function(){

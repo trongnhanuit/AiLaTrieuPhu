@@ -6,7 +6,6 @@ var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 ws.onopen = function(){
 	ws.send("00");
 	$("#status").html("Send request to Server...<br/>");
-	ws.send("ReloadPage");
 };
 	// Receive data from server
 ws.onmessage = function(message)
@@ -62,6 +61,7 @@ ws.onmessage = function(message)
 		$( "#showChart" ).trigger("click");
 	}
 	
+	
 	//CAU HOI MOI
 	// Nhan cau hoi moi
 	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
@@ -103,6 +103,10 @@ ws.onmessage = function(message)
 			$(".container").css('display','none');
 		    });
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 	if (message.data.indexOf("Reload: ")==0)
 	{
 		var response = message.data.replace("Reload: ","").split(",");
@@ -111,7 +115,6 @@ ws.onmessage = function(message)
 		$("#answerb").css('background','#804000');
 		$("#answerc").css('background','#804000');
 		$("#answerd").css('background','#804000');
-		alert(question[0]);
 		$(".c2c1").html(question[0]);
 		$("#answera").html(question[1]);
 		$("#answerb").html(question[2]);
@@ -136,8 +139,35 @@ ws.onmessage = function(message)
 			$('#help03').attr('id','help03used');
 		if(stringValue[3]=="0")
 			$('#help04').attr('id','help04used');
+		$(".c2c4").html("");
+		//Kiem tra onl vs off cua 
+		for ( var i = 1; i < 9; i ++ )
+			{
+				ws.send("CHECKONLINE: 0"+i);
+			}
+		for ( var i = 10; i < 51; i ++ )
+		{
+			ws.send("CHECKONLINE: "+i);
+		}
 		
 	}
+<<<<<<< HEAD
+=======
+	if (message.data.indexOf("RESULTCHECKONLINE: ")==0)
+	{
+		var result = message.data.replace("RESULTCHECKONLINE: ","").split("@");
+		if(result[0]=="1")
+			{
+				
+				$("#user-"+result[1]).attr('class','userOn');
+				$("#user-"+result[1]).html('<div class="numUser">'+result[1]+'</div><div class="umale" id="sex-"'+result[1]+'"></div>');
+			}
+		else
+			{
+				
+			}
+	}
+>>>>>>> origin/master
 		
 };
 ws.onclose = function(){

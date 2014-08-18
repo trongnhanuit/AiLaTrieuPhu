@@ -63,6 +63,10 @@ public class WSServer {
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("AUDIENCE IN: "+msg);
 			
+			// if that is mainplayer -> notice to MC
+			if (msg.equals("00"))
+				getSessionRecord("-1").session.getBasicRemote().sendText("MAINPLAYER SIGNED IN");
+				
 			// Neu la applicants dang nhap thi kiem tra xem 10 vi tri applicants da day chua
 			if (Integer.parseInt(msg)>0 && Integer.parseInt(msg)<11)
 			{
@@ -70,7 +74,7 @@ public class WSServer {
 				for (i=1; i<11; i++)
 					if (getSessionRecord("0"+String.valueOf(i))==null)
 						break;
-				if (i==10 && getSessionRecord(String.valueOf(i))!=null)
+				if (i==10 && getSessionRecord(String.valueOf(i))!=null && Function.getCurrentMainPlayer().equals(""))
 					getSessionRecord("-1").session.getBasicRemote().sendText("CREATE QUICK ROUND");
 			}
 		}
@@ -245,14 +249,14 @@ public class WSServer {
 				
 				//Cap nhat them id cau hoi dc chon vao database
 				Question question=questions.get(pos);
-				if (questionlist.length>1)
-					Function.update(Round.class, "questionlist=questionlist+'@"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
+				if (rounds.get(0).getQuestionlist().length()>0)
+					Function.update(Round.class, "questionlist=concat(questionlist,'@"+String.valueOf(question.getQuestionId())+"')", "roundID="+roundID);
 				else
 					Function.update(Round.class, "questionlist='"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
 				
 				ansKey=question.getAnsKey();
 				for (SessionRecord ssr:sessionmap)
-					ssr.session.getBasicRemote().sendText("RESPONSE NEXT QUESTION: "+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD());
+					ssr.session.getBasicRemote().sendText("RESPONSE NEXT QUESTION: "+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD()+". AnsKey: "+ansKey);
 			}
 			// Nhận Temp answer tu nguoi choi chinh
 			if (msg.indexOf("TEMP ANSWER QUESTION: ")==0)
@@ -261,11 +265,17 @@ public class WSServer {
 						ssr.session.getBasicRemote().sendText(msg);
 			// Nhận Final answer tu nguoi choi chinh
 			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
+			{
+				if (!msg.replace("FINAL ANSWER QUESTION: ","").equals(ansKey.toLowerCase()))
+					Function.update(Round.class, "status=1", "roundID="+roundID);
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
+			}
+			
+			// Load lai noi dung
 			if(msg.indexOf("ReloadPage")==0)
 			{
-				int i = 6;
+				int i = roundID;
 				if(i!=0)
 				{
 					List<Round> rounds = Function.select(Round.class,"roundID="+i);
@@ -280,6 +290,17 @@ public class WSServer {
 				}
 				
 				
+			}
+			if(msg.indexOf("CHECKONLINE: ")==0)
+			{
+				String pos = msg.replace("CHECKONLINE: ", "");
+				SessionRecord ssr = getSessionRecord(pos);
+				String result="";
+				if(ssr!=null)
+					result="1";
+				else
+					result="0";
+				session.getBasicRemote().sendText("RESULTCHECKONLINE: "+result+"@"+pos);
 			}
 			
 		}

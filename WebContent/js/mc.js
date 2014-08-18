@@ -22,6 +22,9 @@ ws.onmessage = function(message)
 		$("#user-"+message.data.replace("AUDIENCE OUT: ","")).html('<div class="numUser">'+message.data.replace("AUDIENCE OUT: ","")+'</div>');
 	}	
 	
+	if (message.data.indexOf("MAINPLAYER SIGNED IN")==0)
+		$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+	
 	//HELP
 	// Dung chung cho 4 help de danh dau da su dung
 	if (message.data.indexOf("REQUEST help0")==0)
@@ -176,10 +179,7 @@ function runAroundTimer()
 	
 	// Neu la vong cuoi thi kt de dung lai
 	if (count<10 && stoppos==pos)
-	{
 		clearInterval(timerinterval);
-		$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
-	}
 		
 	count--;
 }
@@ -225,7 +225,6 @@ $(document).on("click", "#createquickround",function()
     ws.send("CREATE QUICK ROUND");
 });
 //Qua cau hoi moi
-//Tạo vòng trả lời nhanh
 $(document).on("click", "#nextquestion",function() 
 {
 	$(".c2r1").empty();
