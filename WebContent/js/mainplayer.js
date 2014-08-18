@@ -88,8 +88,6 @@ ws.onmessage = function(message)
 		if(arr[0]!=arr[1].toLowerCase())
 			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
-<<<<<<< HEAD
-	
 	
 	//Hiện Quảng cáo
 	if (message.data.indexOf("RESPONSE ADS: ")==0)
@@ -105,7 +103,6 @@ ws.onmessage = function(message)
 			$(".container").css('display','none');
 		    });
 	}
-=======
 	if (message.data.indexOf("Reload: ")==0)
 	{
 		var response = message.data.replace("Reload: ","").split(",");
@@ -141,8 +138,6 @@ ws.onmessage = function(message)
 			$('#help04').attr('id','help04used');
 		
 	}
-	
->>>>>>> origin/master
 		
 };
 ws.onclose = function(){
