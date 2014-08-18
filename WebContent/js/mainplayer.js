@@ -103,7 +103,10 @@ ws.onmessage = function(message)
 			$(".container").css('display','none');
 		    });
 	}
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/master
 	if (message.data.indexOf("Reload: ")==0)
 	{
 		var response = message.data.replace("Reload: ","").split(",");
@@ -148,6 +151,8 @@ ws.onmessage = function(message)
 		}
 		
 	}
+<<<<<<< HEAD
+=======
 	if (message.data.indexOf("RESULTCHECKONLINE: ")==0)
 	{
 		var result = message.data.replace("RESULTCHECKONLINE: ","").split("@");
@@ -162,6 +167,7 @@ ws.onmessage = function(message)
 				
 			}
 	}
+>>>>>>> origin/master
 		
 };
 ws.onclose = function(){
