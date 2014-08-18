@@ -139,7 +139,8 @@ ws.onmessage = function(message)
 	// Thong bao nguoi choi chinh chien thang
 	if (message.data.indexOf("MAINPLAYER WON: ")==0)
 	{
-		alert("Chúc mừng người chơi chính đã giành được chiến thắng với số tiền thưởng là: "+message.data.replace("MAINPLAYER WON: ",""));
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="winscreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","")+'"></a>'+$(".c2l2").html());
+		$( "#showChart" ).trigger("click");
 	}
 	
 	//Hiện Quảng cáo
