@@ -255,7 +255,7 @@ public class WSServer {
 				
 				ansKey=question.getAnsKey();
 				for (SessionRecord ssr:sessionmap)
-					ssr.session.getBasicRemote().sendText("RESPONSE NEXT QUESTION: "+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD());
+					ssr.session.getBasicRemote().sendText("RESPONSE NEXT QUESTION: "+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD()+". AnsKey: "+ansKey);
 			}
 			// Nhận Temp answer tu nguoi choi chinh
 			if (msg.indexOf("TEMP ANSWER QUESTION: ")==0)
