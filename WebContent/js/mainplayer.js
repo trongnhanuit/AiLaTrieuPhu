@@ -89,6 +89,12 @@ ws.onmessage = function(message)
 			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 	}
 	
+	// Thong bao nguoi choi chinh chien thang
+	if (message.data.indexOf("MAINPLAYER WON: ")==0)
+	{
+		alert("Chúc mừng người chơi chính đã giành được chiến thắng với số tiền thưởng là: "+message.data.replace("MAINPLAYER WON: ",""));
+	}
+	
 	//Hiện Quảng cáo
 	if (message.data.indexOf("RESPONSE ADS: ")==0)
 	{

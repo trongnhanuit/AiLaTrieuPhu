@@ -30,6 +30,7 @@ public class WSServer {
 	
 	// Answer key for quick question
 	static String ansKey;
+	static boolean isFinalQuestion;
 	
 	// roundID
 	static int roundID;
@@ -235,9 +236,14 @@ public class WSServer {
 			if (msg.indexOf("REQUEST NEXT QUESTION")==0)
 			{
 				// Lay stt cua cau hoi vua qua
+				isFinalQuestion=false;
 				List <Round> rounds=Function.select(Round.class, "roundID="+roundID);
-				String[] questionlist=rounds.get(0).getQuestionlist().split(";");
+				String[] questionlist=rounds.get(0).getQuestionlist().split("@");
 				List<Question> questions=Function.select(Question.class, "level="+questionlist.length/5);
+				
+				// Kt co phai cau tiep la cau 15
+				if (questionlist.length==14)
+					isFinalQuestion=true;
 				
 				// Chon ngau nhien 1 cau hoi tu ds
 				int pos=0;
@@ -266,10 +272,18 @@ public class WSServer {
 			// Nhận Final answer tu nguoi choi chinh
 			if (msg.indexOf("FINAL ANSWER QUESTION: ")==0)
 			{
-				if (!msg.replace("FINAL ANSWER QUESTION: ","").equals(ansKey.toLowerCase()))
-					Function.update(Round.class, "status=1", "roundID="+roundID);
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
+				// Kiểm tra câu trả lời: nếu sai -> cập nhât DB; nếu đúng và là câu 15 thì cập nhật DB và thông báo thắng
+				if (!msg.replace("FINAL ANSWER QUESTION: ","").equals(ansKey.toLowerCase()))
+					Function.update(Round.class, "status=-1", "roundID="+roundID);
+				else
+					if (isFinalQuestion)
+					{
+						Function.update(Round.class, "status=1", "roundID="+roundID);
+						for (SessionRecord ssr:sessionmap)
+							ssr.session.getBasicRemote().sendText("MAINPLAYER WON: 150000000");
+					}
 			}
 			
 			// Load lai noi dung
