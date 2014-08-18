@@ -86,8 +86,16 @@
 		</div> 
 		<div class="c2r">
 			<div class="c2r1">
-				<div class="c2l1title">TRỢ GIÚP</div>
-				<div class="btn" id="ads">Quảng cáo</div>
+				<div class="c2l1title">CHỨC NĂNG</div>
+				<div class="c2r11">
+					<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>
+				</div>
+				<div class="c2r12">
+					<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>
+				</div>
+				<div class="c2r13">
+					<div class="btnOff" id="ads">QUẢNG CÁO</div>
+				</div>
 			</div>
 			<div class="c2r2"></div>
 		</div> 

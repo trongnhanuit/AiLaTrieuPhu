@@ -23,8 +23,11 @@ ws.onmessage = function(message)
 	}	
 	
 	if (message.data.indexOf("MAINPLAYER SIGNED IN")==0)
-		$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
-	
+	{
+		$(".c2r13").html('<div class="btn" id="ads">QUẢNG CÁO</div>');
+		$(".c2r12").html('<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+	}
+		
 	//HELP
 	// Dung chung cho 4 help de danh dau da su dung
 	if (message.data.indexOf("REQUEST help0")==0)
@@ -45,7 +48,7 @@ ws.onmessage = function(message)
 	//HELP03
 	if (message.data.indexOf("RESPONSE help03: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2r1").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="showChart.jsp?data='+message.data.replace("RESPONSE help03: ","")+'"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
@@ -60,14 +63,14 @@ ws.onmessage = function(message)
 	//HELP02
 	if (message.data.indexOf("RESPONSE help02: ")==0)
 	{
-		$(".c2r1").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>');
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
 	// VONG TRA LOI NHANH
 	// Server bao du dieu kien tao vong tra loi nhanh
 	if (message.data.indexOf("CREATE QUICK ROUND")==0)
-		$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+		$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
 	//Server gui cau hoi
 	if (message.data.indexOf("QUICK ROUND QUESTION: ")==0)
 	{
@@ -132,7 +135,10 @@ ws.onmessage = function(message)
 		if(arr[0]!=arr[1].toLowerCase())
 			alert("Người chơi chính đã trả lời sai! THUA CUỘC");
 		else
-			$(".c2r1").html($(".c2r1").html()+'<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+		{
+			$(".c2r13").html('<div class="btn" id="ads">QUẢNG CÁO</div>');
+			$(".c2r12").html('<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+		}
 	}
 	
 	//Hiện Quảng cáo
@@ -221,13 +227,14 @@ $(function(){
 //Tạo vòng trả lời nhanh
 $(document).on("click", "#createquickround",function() 
 {
-	$(".c2r1").empty();
+	$(".c2r11").html('<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
     ws.send("CREATE QUICK ROUND");
 });
 //Qua cau hoi moi
 $(document).on("click", "#nextquestion",function() 
 {
-	$(".c2r1").empty();
+	$(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+	$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
     ws.send("REQUEST NEXT QUESTION");
 });
 
