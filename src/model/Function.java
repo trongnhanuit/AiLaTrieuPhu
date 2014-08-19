@@ -69,8 +69,54 @@ public class Function {
 		ss.close();
 	}
 	
+	// Chuyen tu so cau sang so tien
+	public static int convert2Prize(int num)
+	{
+		switch (num)
+		{
+			case 0: return 0; 
+			case 1: return 200000; 
+			case 2: return 400000; 
+			case 3: return 600000; 
+			case 4: return 1000000; 
+			case 5: return 2000000; 
+			case 6: return 3000000; 
+			case 7: return 6000000; 
+			case 8: return 10000000; 
+			case 9: return 14000000; 
+			case 10: return 22000000; 
+			case 11: return 30000000; 
+			case 12: return 40000000; 
+			case 13: return 60000000; 
+			case 14: return 85000000; 
+			case 15: return 150000000; 
+		}
+		return 0;
+	}
+	
+	// Xac dinh so tien sau khi thua cuoc
+	public static int getFailedPrize(int roundID)
+	{
+		List <Round> rounds=select(Round.class,"roundID="+roundID);
+		String[] questions=rounds.get(0).getQuestionlist().split("@");
+		if (questions.length>10)
+			return 22000000;
+		else
+			if (questions.length>5)
+				return 2000000;
+			else
+				return 0;
+	}
+	
+	// Xac dinh so tien o cau hoi hien tai khi nguoi choi quyet dinh dung cuoc choi
+	public static int getCurrentPrize(int roundID)
+	{
+		List <Round> rounds=select(Round.class,"roundID="+roundID);
+		String[] questions=rounds.get(0).getQuestionlist().split("@");
+		return convert2Prize(questions.length);
+	}
+	
 	// get current mainplayer
-
 	public static String getCurrentMainPlayer()
 	{
 		List <Round> rounds=select(Round.class,"status=0");
@@ -159,10 +205,10 @@ public class Function {
 	{
 		// How to uses: please enter "true" for whereString if you have no whereString.
 		
-		List<Quickquestion> ql= Function.select(Quickquestion.class,"");
+		/*List<Quickquestion> ql= Function.select(Quickquestion.class,"");
 		Random rd = new Random();
 		Quickquestion qqt=ql.get(rd.nextInt(ql.size()));
-		String ansKey=qqt.getAnsKey();
+		String ansKey=qqt.getAnsKey();*/
 		
 		/*// SELECT
 		List<Question> ql= select(Question.class,"questionID>75");

@@ -276,7 +276,11 @@ public class WSServer {
 					ssr.session.getBasicRemote().sendText("QUESTION RESULT: "+msg.replace("FINAL ANSWER QUESTION: ", "")+";"+ansKey);
 				// Kiểm tra câu trả lời: nếu sai -> cập nhât DB; nếu đúng và là câu 15 thì cập nhật DB và thông báo thắng
 				if (!msg.replace("FINAL ANSWER QUESTION: ","").equals(ansKey.toLowerCase()))
+				{
 					Function.update(Round.class, "status=-1", "roundID="+roundID);
+					for (SessionRecord ssr:sessionmap)
+						ssr.session.getBasicRemote().sendText("MAINPLAYER FAILED: "+Function.getFailedPrize(roundID));
+				}	
 				else
 					if (isFinalQuestion)
 					{
