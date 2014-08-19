@@ -417,7 +417,7 @@ public class WSServer {
 			for(PlayerPosRecord ppr:LoginController.playerposmap)
 				if (ppr.pos.equals(pos))
 				{
-					Round newRound=new Round(Function.selectPlayer(ppr.username), 15, "", 0);
+					Round newRound=new Round(Function.selectPlayer(ppr.username), 7, "", 0);
 					Function.insert(newRound);
 					roundID=Function.getRoundID(ppr.username);
 					break;
