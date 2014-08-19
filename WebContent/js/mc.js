@@ -33,6 +33,10 @@ ws.onmessage = function(message)
 	if (message.data.indexOf("REQUEST help0")==0)
 		$("#"+message.data.replace("REQUEST ","")).attr("id",message.data.replace("REQUEST ","")+"used");
 	// HELP04
+	// Nhan thong bao duoc them quyen help04
+	if (message.data.indexOf("ADD HELP04")==0)
+		$("#help04used").attr("id","help04");
+		
 	if (message.data.indexOf("RESPONSE help04: ")==0)
 		$("#user-"+message.data.replace("RESPONSE help04: ","")).attr('class', 'userHelp');	
 	if (message.data.indexOf("RESULT help04: ")==0)	
@@ -66,6 +70,11 @@ ws.onmessage = function(message)
 		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="help02.jsp?data='+message.data.replace("RESPONSE help02: ","")+'"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
+	
+	
+	// Close fancybox help
+	if (message.data.indexOf("CLOSE HELP FANCYBOX")==0)
+		$.fancybox.close();
 	
 	// VONG TRA LOI NHANH
 	// Server bao du dieu kien tao vong tra loi nhanh

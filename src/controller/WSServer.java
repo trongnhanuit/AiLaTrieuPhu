@@ -157,7 +157,8 @@ public class WSServer {
 			// HELP01
 			if (msg.indexOf("REQUEST help01")==0)
 			{
-				String ans = "a", c ="",wrong="";
+				String ans = ansKey.toLowerCase();
+				String c ="",wrong="";
 				Random rd = new Random();
 				while(wrong.length()<3)
 				{
@@ -181,7 +182,9 @@ public class WSServer {
 			// HELP02
 			if (msg.indexOf("REQUEST help02")==0)
 			{
-				String ans = "a", res="";
+				String ans = ansKey.toLowerCase();
+				String res="";
+				
 				Random rd = new Random();
 				if(rd.nextInt(2)==0)
 					res=ans;
@@ -192,6 +195,11 @@ public class WSServer {
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("RESPONSE help02: "+res);	
 			}
+			
+			// Close fancybox Help
+			if (msg.indexOf("CLOSE HELP FANCYBOX")==0)
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("CLOSE HELP FANCYBOX");
 			
 			// QUẢNG CÁO
 			if (msg.indexOf("REQUEST ADS")==0)
@@ -244,6 +252,14 @@ public class WSServer {
 				// Kt co phai cau tiep la cau 15
 				if (questionlist.length==14)
 					isFinalQuestion=true;
+				
+				// Neu la cau 6 thi them help4: cap nhat DB va thong bao
+				if (questionlist.length==5)
+				{
+					Function.update(Round.class, "help=help+8", "roundID="+roundID);
+					for (SessionRecord ssr:sessionmap)
+						ssr.session.getBasicRemote().sendText("ADD HELP04");
+				}
 				
 				// Chon ngau nhien 1 cau hoi tu ds
 				int pos=0;

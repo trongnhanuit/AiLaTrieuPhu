@@ -65,7 +65,7 @@
 					<div class="help" id="help01"></div>
 					<div class="help" id="help02"></div>
 					<div class="help" id="help03"></div>
-					<div class="help" id="help04"></div>
+					<div class="help" id="help04used"></div>
 				</div>
 			</div>
 			<div class="c2l2"></div>

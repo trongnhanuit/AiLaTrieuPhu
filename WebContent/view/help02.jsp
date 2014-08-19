@@ -16,7 +16,7 @@
 	  {
 	  case 29: document.getElementById("chat").innerHTML+="<br /><b>Tôi:</b> Bạn nghe rõ tôi đọc câu hỏi nhé!"; break;
 	  case 28: document.getElementById("chat").innerHTML+="<br /><b>Người thân: </b> Tôi đang nghe và sẵn sàng đây "; break;
-	  case 26: document.getElementById("chat").innerHTML+="<br /><b>Tôi: </b> Câu hỏi là hsdhjsdvhfsvhf "; break;
+	  case 26: document.getElementById("chat").innerHTML+="<br /><b>Tôi: </b> Câu hỏi là ... "; break;
 	  case 23: document.getElementById("chat").innerHTML+="<br /><b>Người thân: </b>"+document.getElementById("ansr").innerHTML; break;
 	  case 22: document.getElementById("chat").innerHTML+="<br /><b>Tôi: </b> Cám ơn bạn nhiều nhé"; break;
 	  }

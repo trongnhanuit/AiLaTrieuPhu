@@ -4,6 +4,9 @@ var count, timerinterval;
 // Bien cho biet close fancybox xong co can redirect qua trang login k
 var isNeed2Redirect=0;
 
+// Bien cho biet close fancybox xong co can tinh gio khong
+var isNeed2Count=0;
+
 var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 //Connected to socket server, get @param message.
 ws.onopen = function(){
@@ -26,6 +29,10 @@ ws.onmessage = function(message)
 	}
 	
 	// HELP04
+	// Nhan thong bao duoc them quyen help04
+	if (message.data.indexOf("ADD HELP04")==0)
+		$("#help04used").attr("id","help04");
+		
 	if (message.data.indexOf("RESPONSE help04: ")==0)
 	{
 		$("#user-"+message.data.replace("RESPONSE help04: ","")).attr('class', 'userHelp');
@@ -34,6 +41,10 @@ ws.onmessage = function(message)
 	}
 	if (message.data.indexOf("RESULT help04: ")==0)	
 	{
+		// bat dau tinh gio lai
+		count=10;
+		timerinterval=setInterval(questionTimer,1000); 
+		
 		var arr=message.data.replace('RESULT help04: ','').split(';');
 		for (var i=0; i<3; i++)
 		{
@@ -52,6 +63,10 @@ ws.onmessage = function(message)
 	//HELP01
 	if (message.data.indexOf("RESPONSE help01: ")==0)
 	{
+		// bat dau tinh gio lai
+		count=10;
+		timerinterval=setInterval(questionTimer,1000); 
+		
 		var arr=message.data.replace('RESPONSE help01: ','').split(';');
 		$("#answer"+arr[0]).css('background','black');
 		$("#answer"+arr[1]).css('background','black');
@@ -255,6 +270,9 @@ $(function(){
     	// Only excuse if mainplayer hasn't used this help.
     	if ($( this ).attr('id').indexOf("used")==-1)
     	{
+    		isNeed2Count=1;
+    		clearInterval(timerinterval);
+    		
     		ws.send("REQUEST "+$( this ).attr('id'));
         	$( this ).attr("id",$( this ).attr('id')+"used");
     	}
@@ -334,6 +352,14 @@ $(document).ready(function() {
             {
             	if (isNeed2Redirect==1)
             		location.href = "login.jsp";
+            	if (isNeed2Count==1)
+        		{
+            		// bat dau tinh gio lai
+            		count=10;
+            		timerinterval=setInterval(questionTimer,1000);
+            		isNeed2Count==0;
+            		ws.send("CLOSE HELP FANCYBOX");
+        		}
             }
     });
 });
