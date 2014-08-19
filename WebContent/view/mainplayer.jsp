@@ -90,7 +90,21 @@
 			<div class="c2r1"></div>
 			<div class="c2r2"></div>
 		</div> 
+	</div>	
 	</div>
+<div class="score">
+		<table class="scoreboard">
+			<c:forEach var="i" begin="0" end="15">
+			<tr id="s<c:out value="${i}" />">
+				<td>
+				<c:out value="${15-i}" />  ♦  
+				</td>
+				<td>
+					<c:out value="${(15-i)}" />0.000 đ
+				</td>
+			</tr>
+			</c:forEach>
+		</table>
 	</div>
 </body>
 </html>
