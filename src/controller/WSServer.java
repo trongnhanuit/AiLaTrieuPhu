@@ -277,18 +277,41 @@ public class WSServer {
 				// Kiểm tra câu trả lời: nếu sai -> cập nhât DB; nếu đúng và là câu 15 thì cập nhật DB và thông báo thắng
 				if (!msg.replace("FINAL ANSWER QUESTION: ","").equals(ansKey.toLowerCase()))
 				{
+					int check=0;
+					if (checkEnough10Applicants())
+						check=1;
 					Function.update(Round.class, "status=-1", "roundID="+roundID);
 					for (SessionRecord ssr:sessionmap)
-						ssr.session.getBasicRemote().sendText("MAINPLAYER FAILED: "+Function.getFailedPrize(roundID));
+						ssr.session.getBasicRemote().sendText("MAINPLAYER FAILED: "+Function.getFailedPrize(roundID)+";"+check);
 				}	
 				else
 					if (isFinalQuestion)
 					{
+						int check=0;
+						if (checkEnough10Applicants())
+							check=1;
 						Function.update(Round.class, "status=1", "roundID="+roundID);
 						for (SessionRecord ssr:sessionmap)
-							ssr.session.getBasicRemote().sendText("MAINPLAYER WON: 150000000");
+							ssr.session.getBasicRemote().sendText("MAINPLAYER WON: 150000000"+";"+check);
 					}
 			}
+			
+			// Mainplayer yeu cau dung cuoc choi
+			if (msg.indexOf("REQUEST STOP PLAYING")==0)
+			{
+				int check=0;
+				if (checkEnough10Applicants())
+					check=1;
+				Function.update(Round.class, "status=1", "roundID="+roundID);
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("MAINPLAYER WON: "+Function.getCurrentPrize(roundID)+";"+check);
+			}
+			
+			// MC yeu cau tam dung game
+			if (msg.indexOf("REQUEST PAUSE")==0)
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("REQUEST PAUSE");
+			
 			
 			// Load lai noi dung
 			if(msg.indexOf("ReloadPage")==0)
@@ -329,6 +352,17 @@ public class WSServer {
 		for (int i=0; i<questionlist.length; i++)
 			if (questionID.equals(questionlist[i]))
 				return false;
+		return true;
+	}
+	
+	// Kiem tra du 10 ung vien chua
+	public static boolean checkEnough10Applicants()
+	{
+		for (int i=0; i<10; i++)
+			if (getSessionRecord("0"+i)==null)
+				return false;
+		if (getSessionRecord("10")==null)
+			return false;
 		return true;
 	}
 	

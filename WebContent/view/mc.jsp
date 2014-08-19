@@ -86,7 +86,9 @@
 		</div> 
 		<div class="c2r">
 			<div class="c2r1">
-				<div class="c2l1title">CHỨC NĂNG</div>
+				<div class="c2r10">
+					<div class="btnOff" id="pause">TẠM DỪNG</div>
+				</div>
 				<div class="c2r11">
 					<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>
 				</div>

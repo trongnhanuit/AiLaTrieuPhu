@@ -59,7 +59,9 @@
 	<div class="c2">
 		<div class="c2l">
 			<div class="c2l1">
-				<div class="c2l1title">TRỢ GIÚP</div>
+				<div class="c2l10">
+					<div class="btn" id="stopplaying">DỪNG CUỘC CHƠI</div>
+				</div>
 				<div class="c2l1content">
 					<div class="help" id="help01"></div>
 					<div class="help" id="help02"></div>

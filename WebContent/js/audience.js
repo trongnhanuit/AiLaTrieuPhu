@@ -1,6 +1,9 @@
 // Bien tan so cho o do chay tao cam giac hoi hop vong tra loi nhanh
 var count, f=4, timerinterval, currentcolor, stoppos;
 
+//Bien cho biet close fancybox xong co can redirect qua trang login k
+var isNeed2Redirect=0;
+
 var ws = new WebSocket("ws://localhost:8080/AiLaTrieuPhu/servertest");
 //Connected to socket server, get @param message.
 ws.onopen = function(){
@@ -137,14 +140,22 @@ ws.onmessage = function(message)
 	// Thong bao nguoi choi chinh chien thang
 	if (message.data.indexOf("MAINPLAYER WON: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","")+'&result=win"></a>'+$(".c2l2").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","").split(";")[0]+'&result=win"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
 	// Thong bao nguoi choi chinh thua cuoc
 	if (message.data.indexOf("MAINPLAYER FAILED: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER FAILED: ","")+'&result=failed"></a>'+$(".c2l2").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER FAILED: ","").split(";")[0]+'&result=failed"></a>'+$(".c2l2").html());
+		$( "#showChart" ).trigger("click");
+	}
+	
+	// Tam dung game
+	if (message.data.indexOf("REQUEST PAUSE")==0)
+	{
+		isNeed2Redirect=1;
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="pausescreen.jsp"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
@@ -283,7 +294,12 @@ $(document).ready(function() {
             autoSize	: false,
             closeClick	: false,
             openEffect	: 'none',
-            closeEffect	: 'none'
+            closeEffect	: 'none',
+            afterClose  : function() 
+            {
+            	if (isNeed2Redirect==1)
+            		location.href = "login.jsp";
+            }
     });
     
     $.urlParam = function(name){
