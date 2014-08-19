@@ -142,15 +142,24 @@ ws.onmessage = function(message)
 	// Thong bao nguoi choi chinh chien thang
 	if (message.data.indexOf("MAINPLAYER WON: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","")+'&result=win"></a>'+$(".c2l2").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","").split(";")[0]+'&result=win"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
+		// An cac nut qua cau hoi
+		$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
+		$(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+		//Hien nut tao vong choi moi neu du nguoi
+		if (message.data.replace("MAINPLAYER WON: ","").split(";")[1]=="1")
+			$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
 	}
 	
 	// Thong bao nguoi choi chinh thua cuoc
 	if (message.data.indexOf("MAINPLAYER FAILED: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER FAILED: ","")+'&result=failed"></a>'+$(".c2l2").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER FAILED: ","").split(";")[0]+'&result=failed"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
+		//Hien nut tao vong choi moi neu du nguoi
+		if (message.data.replace("MAINPLAYER FAILED: ","").split(";")[1]=="1")
+			$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
 	}
 	
 	//Hiện Quảng cáo

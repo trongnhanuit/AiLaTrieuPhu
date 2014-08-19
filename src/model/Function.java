@@ -108,12 +108,12 @@ public class Function {
 				return 0;
 	}
 	
-	// Xac dinh so tien o cau hoi hien tai khi nguoi choi quyet dinh dung cuoc choi
+	// Xac dinh so tien o cau hoi truoc do khi nguoi choi quyet dinh dung cuoc choi
 	public static int getCurrentPrize(int roundID)
 	{
 		List <Round> rounds=select(Round.class,"roundID="+roundID);
 		String[] questions=rounds.get(0).getQuestionlist().split("@");
-		return convert2Prize(questions.length);
+		return convert2Prize(questions.length-1);
 	}
 	
 	// get current mainplayer

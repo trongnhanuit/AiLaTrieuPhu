@@ -132,14 +132,14 @@ ws.onmessage = function(message)
 	// Thong bao nguoi choi chinh chien thang
 	if (message.data.indexOf("MAINPLAYER WON: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","")+'&result=win"></a>'+$(".c2l2").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","").split(";")[0]+'&result=win"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
 	// Thong bao nguoi choi chinh thua cuoc
 	if (message.data.indexOf("MAINPLAYER FAILED: ")==0)
 	{
-		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER FAILED: ","")+'&result=failed"></a>'+$(".c2l2").html());
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER FAILED: ","").split(";")[0]+'&result=failed"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 	}
 	
