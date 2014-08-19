@@ -93,5 +93,38 @@
 		</div> 
 	</div>
 	</div>
+<div class="score">
+		<table class="scoreboard">
+			<c:forEach var="i" begin="0" end="14">
+			<tr id="q<c:out value="${15-i}" />">
+				<td>
+				<c:out value="${15-i}" />  ♦  
+				</td>
+				<td>
+					<%
+						switch(15-(Integer)pageContext.getAttribute("i"))
+						{
+						case 1: out.print("200");break;
+						case 2: out.print("400");break;
+						case 3: out.print("600");break;
+						case 4: out.print("1.000");break;
+						case 5: out.print("<font size=\"3\">2.000</font>");break;
+						case 6: out.print("3.000");break;
+						case 7: out.print("6.000");break;
+						case 8: out.print("10.000");break;
+						case 9: out.print("14.000");break;
+						case 10: out.print("<font size=\"3\">22.000</font>");break;
+						case 11: out.print("30.000");break;
+						case 12: out.print("40.000");break;
+						case 13: out.print("60.000");break;
+						case 14: out.print("85.000");break;
+						case 15: out.print("<font size=\"4\">150.000</font>");break;
+						}
+					%>
+				</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>
 </html>

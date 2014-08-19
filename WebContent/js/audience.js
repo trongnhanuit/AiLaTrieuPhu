@@ -104,6 +104,11 @@ ws.onmessage = function(message)
 		$("#answerb").html(arr[2]);
 		$("#answerc").html(arr[3]);
 		$("#answerd").html(arr[4]);
+		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
+		for(var i=0; i<arr[5];i++)
+			{
+				$("#q"+i).css('background','rgba(0,0,0,0.1)');
+			}
 	}
 	// Nhận Temp answer tu nguoi choi chinh
 	if (message.data.indexOf("TEMP ANSWER QUESTION: ")==0)

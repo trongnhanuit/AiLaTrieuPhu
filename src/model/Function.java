@@ -115,7 +115,12 @@ public class Function {
 		String[] questions=rounds.get(0).getQuestionlist().split("@");
 		return convert2Prize(questions.length);
 	}
-	
+	public static int getCurrentQuestion(int roundID)
+	{
+		List <Round> rounds=select(Round.class,"roundID="+roundID);
+		String[] questions=rounds.get(0).getQuestionlist().split("@");
+		return questions.length;
+	}
 	// get current mainplayer
 	public static String getCurrentMainPlayer()
 	{

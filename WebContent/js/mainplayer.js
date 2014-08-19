@@ -77,6 +77,11 @@ ws.onmessage = function(message)
 		$("#answerc").html(arr[3]);
 		$("#answerd").html(arr[4]);
 		$('#ansKey').val("");
+		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
+		for(var i=0; i<arr[5];i++)
+			{
+				$("#q"+i).css('background','rgba(0,0,0,0.1)');
+			}
 		count=10;
 		timerinterval=setInterval(questionTimer,1000); 
 	}

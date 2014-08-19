@@ -98,7 +98,7 @@ body
 .c2r 
 {
 	height: 500px;
-	width: 250px;
+	width: 241px;
 	float: left;
 }
 
@@ -113,7 +113,7 @@ body
 
 .c2r1 
 {
-	height: 200px;
+	height: 213px;
 	width: 250px;
 	background-color: black
 }
@@ -121,7 +121,7 @@ body
 .c2c 
 {
 	height: 500px;
-	width: 845px;
+	width: 854px;
 	background-color: #0080FF;
 	float: left
 }
@@ -137,7 +137,7 @@ body
 
 .c2l1 
 {
-	height: 200px;
+	height: 213px;
 	width: 250px;
 	background-color: black
 }
@@ -346,7 +346,7 @@ body
 .score
 {
 	float: right;	
-	width: 200px;
+	width: 245px;
 }
 .scoreboard
 {
@@ -360,13 +360,20 @@ body
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );
 	color: White;
 	font-weight: 300;
-	font-size: 15px;
+	font-size: 16px;
 	font-family: CopperplateGothic;
-	margin-top: 15px;
 }
 .scoreboard td
 {
-	padding: 3px 7px;
+	padding: 4px 29px;
 	text-align: center;
-	
+}
+#q1,#q2, #q3, #q4,#q6,#q7,#q8, #q9, #q11,#q12,#q13, #q14
+{
+	color: yellow;
+}
+#q5,#q10,#q15
+{
+	color: white;
+	font-weight: bold;
 }
