@@ -106,6 +106,14 @@ ws.onmessage = function(message)
 		$( "#showChart" ).trigger("click");
 	}
 	
+	// Tam dung game
+	if (message.data.indexOf("REQUEST PAUSE")==0)
+	{
+		isNeed2Redirect=1;
+		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="pausescreen.jsp"></a>'+$(".c2l2").html());
+		$( "#showChart" ).trigger("click");
+	}
+	
 	//Hiện Quảng cáo
 	if (message.data.indexOf("RESPONSE ADS: ")==0)
 	{

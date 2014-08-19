@@ -307,6 +307,12 @@ public class WSServer {
 					ssr.session.getBasicRemote().sendText("MAINPLAYER WON: "+Function.getCurrentPrize(roundID)+";"+check);
 			}
 			
+			// MC yeu cau tam dung game
+			if (msg.indexOf("REQUEST PAUSE")==0)
+				for (SessionRecord ssr:sessionmap)
+					ssr.session.getBasicRemote().sendText("REQUEST PAUSE");
+			
+			
 			// Load lai noi dung
 			if(msg.indexOf("ReloadPage")==0)
 			{

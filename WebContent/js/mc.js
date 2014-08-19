@@ -134,6 +134,7 @@ ws.onmessage = function(message)
 		$("#answer"+arr[1].toLowerCase()).css('background','yellow');
 		if(arr[0]==arr[1].toLowerCase())
 		{
+			$(".c2r10").html('<div class="btn" id="pause">TẠM DỪNG</div>'); 
 			$(".c2r13").html('<div class="btn" id="ads">QUẢNG CÁO</div>');
 			$(".c2r12").html('<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
 		}
@@ -145,6 +146,7 @@ ws.onmessage = function(message)
 		$(".c2l2").html('<a id="showChart" data-fancybox-type="iframe" href="resultcreen.jsp?value='+message.data.replace("MAINPLAYER WON: ","").split(";")[0]+'&result=win"></a>'+$(".c2l2").html());
 		$( "#showChart" ).trigger("click");
 		// An cac nut qua cau hoi
+		$(".c2r10").html('<div class="btnOff" id="pause">TẠM DỪNG</div>'); 
 		$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
 		$(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
 		//Hien nut tao vong choi moi neu du nguoi
@@ -245,6 +247,15 @@ $(function(){
     });
     });
 
+//Tạm dừng cuộc chơi
+$(document).on("click", "#pause",function() 
+{
+    ws.send("REQUEST PAUSE");
+    $(".c2r10").html('<div class="btnOff" id="pause">TẠM DỪNG</div>');  
+    $(".c2r11").html('<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+    $(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+	$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
+});
 //Tạo vòng trả lời nhanh
 $(document).on("click", "#createquickround",function() 
 {
@@ -254,6 +265,7 @@ $(document).on("click", "#createquickround",function()
 //Qua cau hoi moi
 $(document).on("click", "#nextquestion",function() 
 {
+	$(".c2r10").html('<div class="btnOff" id="pause">TẠM DỪNG</div>'); 
 	$(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
 	$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
     ws.send("REQUEST NEXT QUESTION");
