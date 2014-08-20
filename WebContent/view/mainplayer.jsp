@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="controller.*" %>
+<%@page import="model.*" %>
+<%@page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,6 +15,19 @@
 <script type="text/javascript" src="../js/lightbox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 <script type="text/javascript" src="../js/lightbox/source/jquery.fancybox.js?v=2.1.5"></script>
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
+<%
+	String help="1110";
+	int countQuestion=0;
+	List <Round> rounds=Function.select(Round.class,"status=0");
+	if (!rounds.isEmpty())
+	{
+		Round currentRound=rounds.get(0);
+		help=Integer.toBinaryString(currentRound.getHelp());
+		for (int i=0; i<4-help.length(); i++)
+			help="0"+help;
+		countQuestion=currentRound.getQuestionlist().split("@").length;
+	}
+%>
 </head>
 <body>
 	<input type="hidden" id="ansKey" value="NO">
@@ -63,23 +78,26 @@
 					<div class="btn" id="stopplaying">DỪNG CUỘC CHƠI</div>
 				</div>
 				<div class="c2l1content">
-					<div class="help" id="help01"></div>
-					<div class="help" id="help02"></div>
-					<div class="help" id="help03"></div>
-					<div class="help" id="help04used"></div>
+				<% 
+					for (int i=0; i<4; i++)
+						if (help.charAt(3-i)=='1')
+							out.write("<div class=\"help\" id=\"help0"+(i+1)+"\"></div>");
+						else
+							out.write("<div class=\"help\" id=\"help0"+(i+1)+"used\"></div>");
+				%>
 				</div>
 			</div>
 			<div class="c2l2"></div>
 		</div> 
 		<div class="c2c">
-			<div class="c2c1">Noi dung cau hoi</div>
+			<div class="c2c1"><%=WSServer.currentQuestionContent %></div>
 			<div class="c2c2">
-				<div class="answer" id="answera">A</div>
-				<div class="answer" id="answerb">B</div>
+				<div class="answer" id="answera"><%=WSServer.currentQuestionansA %></div>
+				<div class="answer" id="answerb"><%=WSServer.currentQuestionansB %></div>
 			</div>
 			<div class="c2c3">
-				<div class="answer" id="answerc">C</div>
-				<div class="answer" id="answerd">D</div>
+				<div class="answer" id="answerc"><%=WSServer.currentQuestionansC %></div>
+				<div class="answer" id="answerd"><%=WSServer.currentQuestionansD %></div>
 			</div>
 			<div class="c2c4"></div>
 			<div class="c2c5">
@@ -89,7 +107,7 @@
 			</div>
 		</div> 
 		<div class="c2r">
-			<div class="c2r1"></div>
+			<div class="c2r1" style="background-color:white;"></div>
 			<div class="c2r2"></div>
 		</div> 
 	</div>	
@@ -97,7 +115,7 @@
 <div class="score">
 		<table class="scoreboard">
 			<c:forEach var="i" begin="0" end="14">
-			<tr id="q<c:out value="${15-i}" />">
+			<tr id="q<c:out value="${15-i}" />" <% if (String.valueOf(15-countQuestion).equals(String.valueOf(pageContext.getAttribute("i")))) out.write("style=\"background-color:rgba(255,255,255,0.4)\"");%>>
 				<td>
 				<c:out value="${15-i}" />  ♦  
 				</td>

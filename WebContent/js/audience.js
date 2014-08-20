@@ -107,9 +107,26 @@ ws.onmessage = function(message)
 	}
 	
 	//CAU HOI MOI
+	// Neu nhan ds user on thi phai set lai trang thai hien thi
+	if (message.data.indexOf("USER ON LIST: ")==0)
+	{
+		var arr=message.data.replace("USER ON LIST: ","").split(";");
+		for (var i=0; i<arr.length; i++)
+		{
+			$("#user-"+arr[i]).attr('class','userOn');
+			$("#user-"+arr[i]).html('<div class="numUser">'+arr[i]+'</div><div class="umale" id="sex-'+arr[i]+'"></div>');
+		}
+	}
+	
 	// Nhan cau hoi moi
 	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
 	{
+		// Set lai mau cho cac o dap an
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
 		$("#answera").html(arr[1]);
@@ -118,9 +135,7 @@ ws.onmessage = function(message)
 		$("#answerd").html(arr[4]);
 		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
 		for(var i=0; i<arr[5];i++)
-			{
-				$("#q"+i).css('background','rgba(0,0,0,0.1)');
-			}
+			$("#q"+i).css('background','rgba(0,0,0,0.1)');
 	}
 	// Nhận Temp answer tu nguoi choi chinh
 	if (message.data.indexOf("TEMP ANSWER QUESTION: ")==0)

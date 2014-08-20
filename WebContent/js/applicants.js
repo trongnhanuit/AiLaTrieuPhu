@@ -111,9 +111,26 @@ ws.onmessage = function(message)
 	}
 	
 	//CAU HOI MOI
+	// Neu nhan ds user on thi phai set lai trang thai hien thi
+	if (message.data.indexOf("USER ON LIST: ")==0)
+	{
+		var arr=message.data.replace("USER ON LIST: ","").split(";");
+		for (var i=0; i<arr.length; i++)
+		{
+			$("#user-"+arr[i]).attr('class','userOn');
+			$("#user-"+arr[i]).html('<div class="numUser">'+arr[i]+'</div><div class="umale" id="sex-'+arr[i]+'"></div>');
+		}	
+	}
+	
 	// Nhan cau hoi moi
 	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
 	{
+		// Set lai mau cho cac o dap an
+		$("#answera").css('background','#804000');
+		$("#answerb").css('background','#804000');
+		$("#answerc").css('background','#804000');
+		$("#answerd").css('background','#804000');
+		
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
 		$("#answera").html(arr[1]);
@@ -122,9 +139,7 @@ ws.onmessage = function(message)
 		$("#answerd").html(arr[4]);
 		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
 		for(var i=0; i<arr[5];i++)
-			{
-				$("#q"+i).css('background','rgba(0,0,0,0.1)');
-			}
+			$("#q"+i).css('background','rgba(0,0,0,0.1)');
 	}
 	// Nhận Temp answer tu nguoi choi chinh
 	if (message.data.indexOf("TEMP ANSWER QUESTION: ")==0)
@@ -185,20 +200,6 @@ ws.onmessage = function(message)
 			$(".container").html(""); 
 			$(".container").css('display','none');
 		    });
-	}
-	if (message.data.indexOf("Reload: ")==0)
-	{
-		//var decNumber = Number(message.data.replace("Reload: ",""));
-		var decNumber = Number("1");
-		var binaryNumber = decNumber.toString(2).toUpperCase();
-		var stringValue = binaryNumber.toString();
-		
-		if(stringValue.length<2)
-			stringValue = "000"+stringValue;
-		else if(stringValue.length<3)
-			stringValue = "00"+stringValue;
-		else if(stringValue.length<4)
-			stringValue = "0"+stringValue;
 	}
 };
 ws.onclose = function(){

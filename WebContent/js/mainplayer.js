@@ -81,13 +81,26 @@ ws.onmessage = function(message)
 	
 	
 	//CAU HOI MOI
+	// Neu nhan ds user on thi phai set lai trang thai hien thi
+	if (message.data.indexOf("USER ON LIST: ")==0)
+	{
+		var arr=message.data.replace("USER ON LIST: ","").split(";");
+		for (var i=0; i<arr.length; i++)
+		{
+			$("#user-"+arr[i]).attr('class','userOn');
+			$("#user-"+arr[i]).html('<div class="numUser">'+arr[i]+'</div><div class="umale" id="sex-'+arr[i]+'"></div>');
+		}
+	}
+	
 	// Nhan cau hoi moi
 	if (message.data.indexOf("RESPONSE NEXT QUESTION: ")==0)
 	{
+		// Set lai mau cho cac o dap an
 		$("#answera").css('background','#804000');
 		$("#answerb").css('background','#804000');
 		$("#answerc").css('background','#804000');
 		$("#answerd").css('background','#804000');
+
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
 		$("#answera").html(arr[1]);
@@ -97,9 +110,7 @@ ws.onmessage = function(message)
 		$('#ansKey').val("");
 		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
 		for(var i=0; i<arr[5];i++)
-			{
-				$("#q"+i).css('background','rgba(0,0,0,0.1)');
-			}
+			$("#q"+i).css('background','rgba(0,0,0,0.1)');
 		count=10;
 		timerinterval=setInterval(questionTimer,1000); 
 	}
@@ -147,66 +158,6 @@ ws.onmessage = function(message)
 			$(".container").html(""); 
 			$(".container").css('display','none');
 		    });
-	}
-	
-	if (message.data.indexOf("Reload: ")==0)
-	{
-		var response = message.data.replace("Reload: ","").split(",");
-		var question = response[1].split("@@@");
-		$("#answera").css('background','#804000');
-		$("#answerb").css('background','#804000');
-		$("#answerc").css('background','#804000');
-		$("#answerd").css('background','#804000');
-		$(".c2c1").html(question[0]);
-		$("#answera").html(question[1]);
-		$("#answerb").html(question[2]);
-		$("#answerc").html(question[3]);
-		$("#answerd").html(question[4]);
-		$('#ansKey').val("");
-		var decNumber = Number(response[0]);
-		var binaryNumber = decNumber.toString(2).toUpperCase();
-		var stringValue = binaryNumber.toString();
-		
-		if(stringValue.length<2)
-			stringValue = "000"+stringValue;
-		else if(stringValue.length<3)
-			stringValue = "00"+stringValue;
-		else if(stringValue.length<4)
-			stringValue = "0"+stringValue;
-		if(stringValue[0]=="0")
-			$('#help01').attr('id','help01used');
-		if(stringValue[1]=="0")
-			$('#help02').attr('id','help02used');
-		if(stringValue[2]=="0")
-			$('#help03').attr('id','help03used');
-		if(stringValue[3]=="0")
-			$('#help04').attr('id','help04used');
-		$(".c2c4").html("");
-		//Kiem tra onl vs off cua 
-		for ( var i = 1; i < 9; i ++ )
-			{
-				ws.send("CHECKONLINE: 0"+i);
-			}
-		for ( var i = 10; i < 51; i ++ )
-		{
-			ws.send("CHECKONLINE: "+i);
-		}
-		
-	}
-
-	if (message.data.indexOf("RESULTCHECKONLINE: ")==0)
-	{
-		var result = message.data.replace("RESULTCHECKONLINE: ","").split("@");
-		if(result[0]=="1")
-			{
-				
-				$("#user-"+result[1]).attr('class','userOn');
-				$("#user-"+result[1]).html('<div class="numUser">'+result[1]+'</div><div class="umale" id="sex-"'+result[1]+'"></div>');
-			}
-		else
-			{
-				
-			}
 	}
 		
 };

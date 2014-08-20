@@ -30,10 +30,18 @@ public class WSServer {
 	
 	// Answer key for quick question
 	static String ansKey;
+	public static String currentQuestionContent="";
+	public static String currentQuestionansA="";
+	public static String currentQuestionansB="";
+	public static String currentQuestionansC="";
+	public static String currentQuestionansD="";
 	static boolean isFinalQuestion;
 	
+	// Bien trang thai xem moi nguoi co can hien thi lai icon cac user on hay k 
+	static boolean isNeed2Refresh=false;
+	
 	// roundID
-	static int roundID;
+	public static int roundID=-1;
 	
 	@OnOpen
 	public void onOpen(Session session) throws IOException
@@ -112,6 +120,8 @@ public class WSServer {
 						public void run() {try {setInterval();} catch (IOException e) {e.printStackTrace();}}
 					}, 1000,1000);
 				}
+				else // Nguoc lai Help04 thi phai yeu cau refresh lai trang thai User On
+					isNeed2Refresh=true;
 			}
 			// audience + applicants response
 			if (msg.indexOf("RESPONSE help04: ")==0)
@@ -212,6 +222,9 @@ public class WSServer {
 			// TẠO VÒNG TRẢ LỜI NHANH
 			if (msg.indexOf("CREATE QUICK ROUND")==0)
 			{
+				// Phai refresh lai trang thai hien thi user On
+				isNeed2Refresh=true;
+				
 				// Tạo map lưu đáp án và tính giờ gửi thống kê
 				resultmap = Collections.synchronizedSet(new HashSet<ResultRecord>());
 				interval=22;
@@ -243,6 +256,22 @@ public class WSServer {
 			//Nhận yêu cầu câu hỏi từ MC
 			if (msg.indexOf("REQUEST NEXT QUESTION")==0)
 			{
+				// Neu can thi thong bao moi nguoi cap nhat lai trang thai hien thi User On
+				if (isNeed2Refresh)
+				{
+					String list="";
+					for (SessionRecord ssr:sessionmap)
+						if (!ssr.pos.equals("00") && !ssr.pos.equals("-1"))
+							if (list.equals(""))
+								list=ssr.pos;
+							else
+								list=list+";"+ssr.pos;
+					
+					isNeed2Refresh=false;
+					for (SessionRecord ssr:sessionmap)
+						ssr.session.getBasicRemote().sendText("USER ON LIST: "+list);
+				}
+				
 				// Lay stt cua cau hoi vua qua
 				isFinalQuestion=false;
 				List <Round> rounds=Function.select(Round.class, "roundID="+roundID);
@@ -277,6 +306,11 @@ public class WSServer {
 					Function.update(Round.class, "questionlist='"+String.valueOf(question.getQuestionId())+"'", "roundID="+roundID);
 				
 				ansKey=question.getAnsKey();
+				currentQuestionContent=question.getContent();
+				currentQuestionansA=question.getAnsA();
+				currentQuestionansB=question.getAnsB();
+				currentQuestionansC=question.getAnsC();
+				currentQuestionansD=question.getAnsD();
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("RESPONSE NEXT QUESTION: "+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD()+". AnsKey: "+ansKey+"@@@"+Function.getCurrentQuestion(roundID));
 			}
@@ -327,39 +361,6 @@ public class WSServer {
 			if (msg.indexOf("REQUEST PAUSE")==0)
 				for (SessionRecord ssr:sessionmap)
 					ssr.session.getBasicRemote().sendText("REQUEST PAUSE");
-			
-			
-			// Load lai noi dung
-			if(msg.indexOf("ReloadPage")==0)
-			{
-				int i = roundID;
-				if(i!=0)
-				{
-					List<Round> rounds = Function.select(Round.class,"roundID="+i);
-					Round round = rounds.get(0);
-					int help = round.getHelp();
-					String listQ = round.getQuestionlist();
-					String[] a = listQ.split("@");
-					List<Question> temp = Function.select(Question.class, "questionID="+a[a.length-1]);
-					Question question = temp.get(0);
-					session.getBasicRemote().sendText("Reload: "+String.valueOf(help)+","+question.getContent()+"@@@"+question.getAnsA()+"@@@"+question.getAnsB()+"@@@"+question.getAnsC()+"@@@"+question.getAnsD());
-					//session.getBasicRemote().sendText("Reload: "+String.valueOf(1));
-				}
-				
-				
-			}
-			if(msg.indexOf("CHECKONLINE: ")==0)
-			{
-				String pos = msg.replace("CHECKONLINE: ", "");
-				SessionRecord ssr = getSessionRecord(pos);
-				String result="";
-				if(ssr!=null)
-					result="1";
-				else
-					result="0";
-				session.getBasicRemote().sendText("RESULTCHECKONLINE: "+result+"@"+pos);
-			}
-			
 		}
 	}
 	// Kiem tra xem id cua cau hoi co ton tai trong ds cau hoi da qua khong

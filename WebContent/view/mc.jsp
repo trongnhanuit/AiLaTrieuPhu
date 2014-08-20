@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="controller.*" %>
+<%@page import="model.*" %>
+<%@page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,6 +15,19 @@
 <script type="text/javascript" src="../js/lightbox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 <script type="text/javascript" src="../js/lightbox/source/jquery.fancybox.js?v=2.1.5"></script>
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
+<%
+	String help="1110";
+	int countQuestion=0;
+	List <Round> rounds=Function.select(Round.class,"status=0");
+	if (!rounds.isEmpty())
+	{
+		Round currentRound=rounds.get(0);
+		help=Integer.toBinaryString(currentRound.getHelp());
+		for (int i=0; i<4-help.length(); i++)
+			help="0"+help;
+		countQuestion=currentRound.getQuestionlist().split("@").length;
+	}
+%>
 </head>
 <body>
 <div class="container"></div>
@@ -59,23 +74,26 @@
 			<div class="c2l1">
 				<div class="c2l1title">TRỢ GIÚP</div>
 				<div class="c2l1content">
-					<div class="help" id="help01"></div>
-					<div class="help" id="help02"></div>
-					<div class="help" id="help03"></div>
-					<div class="help" id="help04used"></div>
+					<% 
+						for (int i=0; i<4; i++)
+							if (help.charAt(3-i)=='1')
+								out.write("<div class=\"help\" id=\"help0"+(i+1)+"\"></div>");
+							else
+								out.write("<div class=\"help\" id=\"help0"+(i+1)+"used\"></div>");
+					%>
 				</div>
 			</div>
 			<div class="c2l2"></div>
 		</div> 
 		<div class="c2c">
-			<div class="c2c1">Noi dung cau hoi</div>
+			<div class="c2c1"><%=WSServer.currentQuestionContent %></div>
 			<div class="c2c2">
-				<div class="answer" id="answera">A</div>
-				<div class="answer" id="answerb">B</div>
+				<div class="answer" id="answera"><%=WSServer.currentQuestionansA %></div>
+				<div class="answer" id="answerb"><%=WSServer.currentQuestionansB %></div>
 			</div>
 			<div class="c2c3">
-				<div class="answer" id="answerc">C</div>
-				<div class="answer" id="answerd">D</div>
+				<div class="answer" id="answerc"><%=WSServer.currentQuestionansC %></div>
+				<div class="answer" id="answerd"><%=WSServer.currentQuestionansD %></div>
 			</div>
 			<div class="c2c4"></div>
 			<div class="c2c5">
