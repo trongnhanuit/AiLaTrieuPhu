@@ -14,6 +14,7 @@
 <script type="text/javascript" src="../js/lightbox/lib/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="../js/lightbox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 <script type="text/javascript" src="../js/lightbox/source/jquery.fancybox.js?v=2.1.5"></script>
+<script type="text/javascript" src="../js/jquery.cookie.js"></script>
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
 <%
 	String help="1110";
@@ -28,6 +29,7 @@
 		countQuestion=currentRound.getQuestionlist().split("@").length;
 	}
 %>
+
 </head>
 <body>
 <div class="container"></div>
@@ -103,20 +105,32 @@
 			</div>
 		</div> 
 		<div class="c2r">
-			<div class="c2r1">
-				<div class="c2r10">
-					<div class="btnOff" id="pause">TẠM DỪNG</div>
-				</div>
-				<div class="c2r11">
-					<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>
-				</div>
-				<div class="c2r12">
-					<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>
-				</div>
-				<div class="c2r13">
-					<div class="btnOff" id="ads">QUẢNG CÁO</div>
-				</div>
-			</div>
+			<div class="c2r1"></div>
+<script>
+$(document).ready(function(){
+	var s="<div class=\"c2r10\">";
+	if ($.cookie("func00")==0)
+		s=s+"<div class=\"btnOff\" id=\"pause\">TẠM DỪNG</div>";
+	else
+		s=s+"<div class=\"btn\" id=\"pause\">TẠM DỪNG</div>";
+		
+	if ($.cookie("func01")==0)
+		s=s+"</div><div class=\"c2r11\"><div class=\"btnOff\" id=\"createquickround\">TẠO VÒNG CHƠI MỚI</div>";
+	else
+		s=s+"</div><div class=\"c2r11\"><div class=\"btn\" id=\"createquickround\">TẠO VÒNG CHƠI MỚI</div>";
+
+	if ($.cookie("func02")==0)
+		s=s+"</div><div class=\"c2r12\"><div class=\"btnOff\" id=\"nextquestion\">BẮT ĐẦU CÂU HỎI MỚI</div>";
+	else
+		s=s+"</div><div class=\"c2r12\"><div class=\"btn\" id=\"nextquestion\">BẮT ĐẦU CÂU HỎI MỚI</div>";
+
+	if ($.cookie("func03")==0)
+		s=s+"</div><div class=\"c2r13\"><div class=\"btnOff\" id=\"ads\">QUẢNG CÁO</div></div>";
+	else
+		s=s+"</div><div class=\"c2r13\"><div class=\"btn\" id=\"ads\">QUẢNG CÁO</div></div>";
+	$(".c2r1").html(s);
+});
+</script>
 			<div class="c2r2"></div>
 		</div> 
 	</div>

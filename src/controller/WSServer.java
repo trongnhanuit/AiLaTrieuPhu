@@ -22,6 +22,10 @@ import model.*;
 public class WSServer {
 	private static Set<SessionRecord> sessionmap = Collections.synchronizedSet(new HashSet<SessionRecord>());
 	public static Set<ResultRecord> resultmap;
+	
+	// Bien cho biet server moi chay lan dau
+	public static boolean isFirstTime=true;	
+	
 	// Varible for timer
 	static int interval;
 	Timer timer;

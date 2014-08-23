@@ -26,6 +26,8 @@ ws.onmessage = function(message)
 	{
 		$(".c2r13").html('<div class="btn" id="ads">QUẢNG CÁO</div>');
 		$(".c2r12").html('<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+		$.cookie("func03", 1);
+		$.cookie("func02", 1);
 	}
 		
 	//HELP
@@ -79,7 +81,10 @@ ws.onmessage = function(message)
 	// VONG TRA LOI NHANH
 	// Server bao du dieu kien tao vong tra loi nhanh
 	if (message.data.indexOf("CREATE QUICK ROUND")==0)
-		$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+		{
+			$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+			$.cookie("func01", 1);
+		}
 	//Server gui cau hoi
 	if (message.data.indexOf("QUICK ROUND QUESTION: ")==0)
 	{
@@ -159,6 +164,9 @@ ws.onmessage = function(message)
 			$(".c2r10").html('<div class="btn" id="pause">TẠM DỪNG</div>'); 
 			$(".c2r13").html('<div class="btn" id="ads">QUẢNG CÁO</div>');
 			$(".c2r12").html('<div class="btn" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+			$.cookie("func00", 1);
+			$.cookie("func02", 1);
+			$.cookie("func03", 1);
 		}
 	}
 	
@@ -171,9 +179,15 @@ ws.onmessage = function(message)
 		$(".c2r10").html('<div class="btnOff" id="pause">TẠM DỪNG</div>'); 
 		$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
 		$(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
+		$.cookie("func00", 0);
+		$.cookie("func02", 0);
+		$.cookie("func03", 0);
 		//Hien nut tao vong choi moi neu du nguoi
 		if (message.data.replace("MAINPLAYER WON: ","").split(";")[1]=="1")
+		{
 			$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+			$.cookie("func01", 1);
+		}	
 	}
 	
 	// Thong bao nguoi choi chinh thua cuoc
@@ -183,7 +197,10 @@ ws.onmessage = function(message)
 		$( "#showChart" ).trigger("click");
 		//Hien nut tao vong choi moi neu du nguoi
 		if (message.data.replace("MAINPLAYER FAILED: ","").split(";")[1]=="1")
+		{
 			$(".c2r11").html('<div class="btn" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+			$.cookie("func01", 1);
+		}
 	}
 	
 	//Hiện Quảng cáo
@@ -277,11 +294,16 @@ $(document).on("click", "#pause",function()
     $(".c2r11").html('<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
     $(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
 	$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
+	$.cookie("func00", 0);
+	$.cookie("func01", 0);
+	$.cookie("func02", 0);
+	$.cookie("func03", 0);
 });
 //Tạo vòng trả lời nhanh
 $(document).on("click", "#createquickround",function() 
 {
 	$(".c2r11").html('<div class="btnOff" id="createquickround">TẠO VÒNG CHƠI MỚI</div>');
+	$.cookie("func01", 0);
     ws.send("CREATE QUICK ROUND");
 });
 //Qua cau hoi moi
@@ -290,6 +312,9 @@ $(document).on("click", "#nextquestion",function()
 	$(".c2r10").html('<div class="btnOff" id="pause">TẠM DỪNG</div>'); 
 	$(".c2r12").html('<div class="btnOff" id="nextquestion">BẮT ĐẦU CÂU HỎI MỚI</div>');
 	$(".c2r13").html('<div class="btnOff" id="ads">QUẢNG CÁO</div>');
+	$.cookie("func00", 0);
+	$.cookie("func02", 0);
+	$.cookie("func03", 0);
     ws.send("REQUEST NEXT QUESTION");
 });
 

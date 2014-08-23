@@ -2,6 +2,7 @@
 <<<<<<<=HEAD
 >>>>>>>=origin/master
 eclipse.preferences.version=1
+encoding//WebContent/js/Login.js=UTF-8
 encoding//WebContent/js/applicants.js=UTF-8
 encoding//WebContent/js/audience.js=UTF-8
 encoding//WebContent/js/mainplayer.js=UTF-8

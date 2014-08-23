@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.net.URLDecoder"%>
+<%@ page import="controller.WSServer"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +9,33 @@
 <link rel="stylesheet" href="../css/login.css">
 <link rel="shortcut icon" type="image/png" href="../media/logo.png"/>
 <script src="../js/jquery-1.11.1.js"></script>
+<script src="../js/jquery.cookie.js"></script>
 <script src="../js/jquery-ui.js"></script>
 <script src="../js/login.js"></script>
 <script>
 $(function() {
   $( "#tabs" ).tabs();
   $("#audience").load("sub_login.jsp"); 
+});
+</script>
+<% 
+boolean isFirstTime=WSServer.isFirstTime;
+if (WSServer.isFirstTime)
+	WSServer.isFirstTime=false;%>
+<script>
+$(document).ready(function(){
+	var isFirst="<%= isFirstTime%>";
+	if (isFirst=="true")
+	{
+	  $.removeCookie("func00", {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.removeCookie("func01", {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.removeCookie("func02", {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.removeCookie("func03", {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.cookie("func00", 0, {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.cookie("func01", 0, {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.cookie("func02", 0, {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	  $.cookie("func03", 0, {path: 'http://localhost:8080/AiLaTrieuPhu/view/mc.jsp'});
+	}
 });
 </script>
 <%! String error;%>
