@@ -17,7 +17,7 @@
 <script type="text/javascript" src="../js/jquery.cookie.js"></script>
 <link rel="stylesheet" type="text/css" href="../js/lightbox/source/jquery.fancybox.css" media="screen" />
 <%
-	String help="1110";
+	String help="0111";
 	int countQuestion=0;
 	List <Round> rounds=Function.select(Round.class,"status=0");
 	if (!rounds.isEmpty())

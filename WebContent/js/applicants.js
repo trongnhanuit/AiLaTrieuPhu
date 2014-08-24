@@ -230,16 +230,19 @@ $(function(){
     	// Xử lý nhận đáp án cho vòng trả lời nhanh
     	if ($("#answerforquickround").val()!="NO")
 		{
-    		$(this).css('background','red');
-    		$("#answerforquickround").val($("#answerforquickround").val()+$( this ).attr('id').replace("answer",""));
-    		// Trả lời đủ 4 ký tự -> gửi đáp án ngay
-    		if ($("#answerforquickround").val().length==4)
+    		if ($("#answerforquickround").val().indexOf($( this ).attr('id').replace("answer","")) == -1)
 			{
-    			ws.send("QUICK ROUND ANSWER: "+$("#answerforquickround").val()+";"+ msecond);
-    			clearInterval(mtimerinterval);
-    			$("#answerforquickround").val("NO");
-				$(".c2c4").html("");
-			}		
+    			$(this).css('background','red');
+        		$("#answerforquickround").val($("#answerforquickround").val()+$( this ).attr('id').replace("answer",""));
+        		// Trả lời đủ 4 ký tự -> gửi đáp án ngay
+        		if ($("#answerforquickround").val().length==4)
+    			{
+        			ws.send("QUICK ROUND ANSWER: "+$("#answerforquickround").val()+";"+ msecond);
+        			clearInterval(mtimerinterval);
+        			$("#answerforquickround").val("NO");
+    				$(".c2c4").html("");
+    			}	
+			}	
 		}
     });
     });
