@@ -1,6 +1,9 @@
 // Bien thoi gian tra loi cau hoi
 var count, timerinterval;
 
+//Bien thoi gian help04
+var counthelp04, timerintervalhelp04;
+
 // Bien cho biet close fancybox xong co can redirect qua trang login k
 var isNeed2Redirect=0;
 
@@ -32,10 +35,17 @@ ws.onmessage = function(message)
 	// Nhan thong bao duoc them quyen help04
 	if (message.data.indexOf("ADD HELP04")==0)
 		$("#help04used").attr("id","help04");
-		
+	
+	if (message.data.indexOf("REQUEST help04")==0)
+	{
+		counthelp04=11;
+		timerintervalhelp04=setInterval(help04Timer,1000); 
+	}
 	if (message.data.indexOf("RESPONSE help04: ")==0)
 	{
-		$("#user-"+message.data.replace("RESPONSE help04: ","")).attr('class', 'userHelp');
+		var arr=message.data.replace("RESPONSE help04: ","").split(";");
+		for (var i=0; i<arr.length; i++)
+			$("#user-"+arr[i]).attr('class', 'userHelp');
 		$("#choiselist").val("");
 		$(".c2c4").html("Hãy chọn 3 người chơi bạn muốn tham khảo đáp án!");
 	}
@@ -184,6 +194,21 @@ function questionTimer()
 	}
 		
 	count--;
+}
+
+
+function help04Timer()
+{
+	// Hien thi thoi gian
+	$(".c2c4").html("Vui lòng chờ trong khi chương trình đang liên hệ trợ giúp từ khán giả: "+counthelp04);
+
+	if (counthelp04==0)
+	{
+		clearInterval(timerintervalhelp04);
+		ws.send("REQUEST RESPONSE HELP04");
+	}
+		
+	counthelp04--;
 }
 
 // Answer click

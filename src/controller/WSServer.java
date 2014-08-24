@@ -103,8 +103,7 @@ public class WSServer {
 			{
 				Function.update(Round.class, "help=help-"+String.valueOf((int)Math.pow(2,Integer.parseInt(msg.replace("REQUEST help0",""))-1)), "roundID="+roundID);
 				for (SessionRecord ssr:sessionmap)
-					if (!ssr.pos.equals("00"))
-						ssr.session.getBasicRemote().sendText(msg);
+					ssr.session.getBasicRemote().sendText(msg);
 			}
 			
 			// HELP04
@@ -129,10 +128,18 @@ public class WSServer {
 			}
 			// audience + applicants response
 			if (msg.indexOf("RESPONSE help04: ")==0)
-			{
 				resultmap.add(new ResultRecord(getSessionRecord(session).pos,msg.replace("RESPONSE help04: ", "")));
+			if (msg.indexOf("REQUEST RESPONSE HELP04")==0)
+			{
+				String list="";
+				for (ResultRecord rsr:resultmap)
+					if (list.equals(""))
+						list=rsr.pos;
+					else
+						list=list+";"+rsr.pos;
+				
 				for (SessionRecord ssr:sessionmap)
-					ssr.session.getBasicRemote().sendText("RESPONSE help04: "+getSessionRecord(session).pos);
+					ssr.session.getBasicRemote().sendText("RESPONSE help04: "+list);
 			}
 			// mainplayer sends choise list
 			if (msg.indexOf("CHOISE LIST help04: ")==0)
