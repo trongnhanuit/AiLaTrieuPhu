@@ -58,6 +58,12 @@ public class WSServer {
 	{
 		String pos=getSessionRecord(session).pos;
 		sessionmap.remove(getSessionRecord(session));
+		
+		// Xoa tai khoan hien tai khoi ds tai khoan dang dc dang nhap
+		for (PlayerPosRecord ppr:LoginController.playerposmap)
+			if (pos.equals(ppr.pos))
+				LoginController.playerposmap.remove(ppr);
+		
 		// if that is an audience -> notice to everybody
 		if (!pos.equals("-1") && !pos.equals("00"))// neither mc nor mainplayer
 			for (SessionRecord ssr:sessionmap)
