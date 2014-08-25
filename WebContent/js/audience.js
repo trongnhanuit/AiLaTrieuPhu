@@ -116,6 +116,17 @@ ws.onmessage = function(message)
 			$("#user-"+arr[i]).attr('class','userOn');
 			$("#user-"+arr[i]).html('<div class="numUser">'+arr[i]+'</div><div class="umale" id="sex-'+arr[i]+'"></div>');
 		}
+
+		// Xoa vi tri cu cua nguoi choi chinh
+		var i=0;
+		for (var i=0; i<11; i++)
+			if ($("#user-0"+i).attr('class')=="userChoise")
+				break;
+		var pos=""+i;
+		if (i<10)
+			pos="0"+i;
+		$("#user-"+pos).attr('class','userOff');
+		$("#user-"+pos).html('<div class="numUser">'+arr[i]+'</div>');
 	}
 	
 	// Nhan cau hoi moi
