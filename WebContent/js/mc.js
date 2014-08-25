@@ -90,10 +90,10 @@ ws.onmessage = function(message)
 	{
 		var arr=message.data.replace("QUICK ROUND QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
-		$("#answera").html(arr[1]);
-		$("#answerb").html(arr[2]);
-		$("#answerc").html(arr[3]);
-		$("#answerd").html(arr[4]);
+		$("#answera").html("A. "+arr[1]);
+		$("#answerb").html("B. "+arr[2]);
+		$("#answerc").html("C. "+arr[3]);
+		$("#answerd").html("D. "+arr[4]);
 	}
 	// Server gui ket qua nguoi duoc chon
 	if (message.data.indexOf("RESULT ROUND QUESTION: ")==0)
@@ -130,10 +130,10 @@ ws.onmessage = function(message)
 		
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
-		$("#answera").html(arr[1]);
-		$("#answerb").html(arr[2]);
-		$("#answerc").html(arr[3]);
-		$("#answerd").html(arr[4]);
+		$("#answera").html("A. "+arr[1]);
+		$("#answerb").html("B. "+arr[2]);
+		$("#answerc").html("C. "+arr[3]);
+		$("#answerd").html("D. "+arr[4]);
 		count=11;
 		timerinterval=setInterval(questionTimer,1000); 
 	}

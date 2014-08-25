@@ -90,10 +90,10 @@ ws.onmessage = function(message)
 	{
 		var arr=message.data.replace("QUICK ROUND QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
-		$("#answera").html(arr[1]);
-		$("#answerb").html(arr[2]);
-		$("#answerc").html(arr[3]);
-		$("#answerd").html(arr[4]);
+		$("#answera").html("A. "+arr[1]);
+		$("#answerb").html("B. "+arr[2]);
+		$("#answerc").html("C. "+arr[3]);
+		$("#answerd").html("D. "+arr[4]);
 		$("#answerforquickround").val("");
 		$(".c2c4").html("Hãy click chọn đáp án lần lượt theo thứ tự bạn cho là đúng.");
 		mtimerinterval=setInterval(mtimer,10), msecond=2000;
@@ -133,10 +133,10 @@ ws.onmessage = function(message)
 		
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
-		$("#answera").html(arr[1]);
-		$("#answerb").html(arr[2]);
-		$("#answerc").html(arr[3]);
-		$("#answerd").html(arr[4]);
+		$("#answera").html("A. "+arr[1]);
+		$("#answerb").html("B. "+arr[2]);
+		$("#answerc").html("C. "+arr[3]);
+		$("#answerd").html("D. "+arr[4]);
 		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
 		for(var i=0; i<arr[5];i++)
 			$("#q"+i).css('background','rgba(0,0,0,0.1)');

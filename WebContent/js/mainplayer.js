@@ -113,10 +113,10 @@ ws.onmessage = function(message)
 
 		var arr=message.data.replace("RESPONSE NEXT QUESTION: ","").split("@@@");
 		$(".c2c1").html(arr[0]);
-		$("#answera").html(arr[1]);
-		$("#answerb").html(arr[2]);
-		$("#answerc").html(arr[3]);
-		$("#answerd").html(arr[4]);
+		$("#answera").html("A. "+arr[1]);
+		$("#answerb").html("B. "+arr[2]);
+		$("#answerc").html("C. "+arr[3]);
+		$("#answerd").html("D. "+arr[4]);
 		$('#ansKey').val("");
 		$("#q"+arr[5]).css('background','rgba(255,255,255,0.4)');
 		for(var i=0; i<arr[5];i++)

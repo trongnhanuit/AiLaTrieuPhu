@@ -90,12 +90,12 @@
 		<div class="c2c">
 			<div class="c2c1"><%=WSServer.currentQuestionContent %></div>
 			<div class="c2c2">
-				<div class="answer" id="answera"><%=WSServer.currentQuestionansA %></div>
-				<div class="answer" id="answerb"><%=WSServer.currentQuestionansB %></div>
+				<div class="answer" id="answera">A. <%=WSServer.currentQuestionansA %></div>
+				<div class="answer" id="answerb">B. <%=WSServer.currentQuestionansB %></div>
 			</div>
 			<div class="c2c3">
-				<div class="answer" id="answerc"><%=WSServer.currentQuestionansC %></div>
-				<div class="answer" id="answerd"><%=WSServer.currentQuestionansD %></div>
+				<div class="answer" id="answerc">C. <%=WSServer.currentQuestionansC %></div>
+				<div class="answer" id="answerd">D. <%=WSServer.currentQuestionansD %></div>
 			</div>
 			<div class="c2c4"></div>
 			<div class="c2c5">
